@@ -726,7 +726,8 @@ img.fb-hide{opacity:0}
   .planner-in{grid-template-columns:1fr 1fr}
   .planner .pf:nth-child(3)::before{display:none}
   .planner .pf:nth-child(3),.planner .pf:nth-child(4){border-top:1px solid var(--line)}
-  .planner .go{grid-column:span 2;margin:6px}
+  .planner .go{grid-column:span 2;margin:6px;justify-content:center;padding:0 64px}
+  .planner .go .ico{position:absolute;right:10px;top:0;bottom:0;margin:auto 0}
   .bento{grid-template-columns:repeat(6,1fr)}
   .b1{grid-column:span 6;grid-row:span 2;min-height:360px}
   .b2{grid-column:span 3}.b3{grid-column:span 3}
@@ -1387,11 +1388,11 @@ const W=[
   {s:"mexico-city-cancun-tulum",t:"Mexico City, Cancun and Tulum",region:"americas",country:"Mexico",im:"photo-1518638150340-f706e86654de",dur:"11 nights",nights:11,price:2900,route:"Mexico City · Cancun · Tulum",tags:["plane","hotel","tour"],
     b:"Museums, markets and Teotihuacan in Mexico City, then the Caribbean side: Cancun's beaches, a day at Chichen Itza, a swim in a cenote and the clifftop ruins at Tulum.",
     incl:["Return international flights from the USA","3 nights in Mexico City, 4-star hotel with breakfast","3 nights at a Cancun resort with breakfast","3 nights at a Tulum boutique hotel with breakfast","2 nights at a Cancun hotel before departure","Guided Mexico City tour and Teotihuacan","Day trip to Chichen Itza from Cancun","Cenote swimming excursion","All airport and inter-city transfers"]},
-  {s:"adriatic-sailing-rome-to-venice",t:"Under sail from Rome to Venice",region:"cruises",country:"Italy, Montenegro and Croatia",ship:"Windstar Wind Spirit",im:"photo-1626699748984-47d6942751ca",badge:"Small ship",dur:"14 nights",nights:14,price:3977,route:"Rome · Naples · Messina · Kotor · Dubrovnik · Hvar · Zadar · Split · Venice",tags:["cruise","tour"],
+  {s:"adriatic-sailing-rome-to-venice",t:"Under sail from Rome to Venice",region:"cruises",country:"Italy, Montenegro and Croatia",ship:"Windstar Wind Spirit",im:"photo-1626699748984-47d6942751ca",badge:"Small ship",dur:"14 nights",nights:14,price:3899,route:"Rome · Naples · Messina · Kotor · Dubrovnik · Hvar · Zadar · Split · Venice",tags:["cruise","tour"],
     b:"Fourteen nights on a four-masted sailing yacht that carries only 148 guests. It leaves Rome, rounds the south of Italy and works up the Adriatic through Kotor, Dubrovnik and the Dalmatian islands to Venice.",
     incl:["14 nights aboard Wind Spirit, Windstar Cruises","All meals on board, open seating with no fixed times or tables","Free watersports from the stern platform: kayaking, sailing and water skiing","8 ports: Naples, Messina, Kotor, Dubrovnik, Hvar, Zadar, Split and Venice","Embark in Rome (Civitavecchia), disembark in Venice","All port taxes and fees, with 24/7 support"]},
-  {s:"alaska-inside-passage-glacier-bay",t:"Alaska's Inside Passage and Glacier Bay",region:"cruises",country:"Alaska, USA",ship:"Norwegian Encore",im:"photo-1657682899797-5692d871dd0e",dur:"7 nights",nights:7,price:1009,route:"Seattle · Juneau · Skagway · Glacier Bay · Ketchikan · Victoria",tags:["cruise","tour"],
-    b:"A round trip from Seattle up the Inside Passage to Juneau, Skagway and Glacier Bay National Park, returning via Ketchikan and Victoria in Canada. On board: a go-kart track, a VR pavilion and a Broadway show. This fare is non-refundable.",
+  {s:"alaska-inside-passage-glacier-bay",t:"Alaska's Inside Passage and Glacier Bay",region:"cruises",country:"Alaska, USA",ship:"Norwegian Encore",im:"photo-1657682899797-5692d871dd0e",dur:"7 nights",nights:7,price:999,route:"Seattle · Juneau · Skagway · Glacier Bay · Ketchikan · Victoria",tags:["cruise","tour"],
+    b:"A round trip from Seattle up the Inside Passage to Juneau, Skagway and Glacier Bay National Park, returning via Ketchikan and Victoria in Canada. On board: a go-kart track, a VR pavilion and a Broadway show.",
     incl:["7 nights aboard Norwegian Encore, round trip from Seattle","Drinks package offers, dining credits and onboard credit","Shore excursion credit, free soft drinks and free internet","Ports: Juneau, Skagway, Glacier Bay (UNESCO), Ketchikan and Victoria, BC","Encore Speedway, Galaxy Pavilion and the Kinky Boots Broadway show","All port taxes and fees"]},
   {s:"western-mediterranean-round-trip",t:"Western Mediterranean round trip from Rome",region:"cruises",country:"Italy, Spain and France",ship:"MSC Sinfonia",im:"photo-1578095172812-dcc191c5aed8",dur:"9 nights",nights:9,price:849,route:"Rome · Palermo · Valencia · Barcelona · Marseille · Genoa · Livorno",tags:["cruise","tour"],
     b:"Nine nights out of Rome and back, calling at Palermo, Valencia, Barcelona, Marseille, Genoa and Livorno for Florence and Pisa, with two full days at sea in between.",
