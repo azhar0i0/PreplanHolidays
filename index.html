@@ -6,7 +6,8 @@
 <title>Preplan Holidays | Italy city breaks, planned properly</title>
 <meta name="description" content="Preplan Holidays builds hotel-and-breakfast city breaks across Rome, Florence, Venice and Milan. One message, one price, one clean itinerary.">
 <meta name="theme-color" content="#06837f">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%2306837f'/%3E%3Cpath d='M14 30V10h7.5a6.5 6.5 0 0 1 0 13H14' stroke='%23fff' stroke-width='3.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='29.5' cy='29.5' r='3.4' fill='%23fdc100'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -98,6 +99,12 @@ p{margin:0}
 /* ---------- logo ---------- */
 .logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-head);font-weight:700;font-size:1.12rem;letter-spacing:-.02em;line-height:1}
 .logo svg{width:36px;height:36px;flex:none;transition:transform .7s var(--spring)}
+.logo-img{display:block;height:40px;width:auto;transition:transform .6s var(--spring)}
+.logo:hover .logo-img{transform:scale(1.03)}
+.logo-on-light{display:none}
+.nav.solid .logo-on-dark{display:none}
+.nav.solid .logo-on-light{display:block}
+.foot .logo-img{height:54px}
 .logo:hover svg{transform:rotate(-8deg) scale(1.05)}
 .logo small{display:block;font-family:var(--f-body);font-weight:500;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-top:3px}
 
@@ -149,7 +156,7 @@ p{margin:0}
 .curtain .cl{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .3s}
 .curtain.cover .cl{opacity:1;transition-delay:.35s}
 .curtain.leave .cl{opacity:0;transition-delay:0s}
-.curtain .cl svg{width:64px;height:64px;animation:pulse 1.2s var(--ease) infinite}
+.curtain .cl img{width:min(240px,62vw);height:auto;animation:pulse 1.2s var(--ease) infinite}
 @keyframes pulse{50%{transform:scale(.88) rotate(-6deg)}}
 .progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:90;background:linear-gradient(90deg,var(--strong-cyan),var(--school-bus-yellow));transform-origin:left;transform:scaleX(0);pointer-events:none}
 @supports (animation-timeline: scroll()){.progress{animation:grow linear both;animation-timeline:scroll(root)}@keyframes grow{to{transform:scaleX(1)}}}
@@ -761,6 +768,7 @@ img.fb-hide{opacity:0}
   .nav{inset:10px 0 auto 0}
   .island{height:58px}
   .island.brand{padding:0 16px 0 10px}
+  .logo-img{height:36px}
   .acts .wa,.burger{width:46px;height:46px}
   .burger span{left:14px;right:14px}.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:22px;right:19px}.burger span:nth-child(3){top:27px}
   .menu-open .burger span:nth-child(1),.menu-open .burger span:nth-child(3){top:22px}
@@ -831,6 +839,7 @@ img.fb-hide{opacity:0}
 @media (max-width:400px){
   .nav-in{gap:8px}
   .island.brand{padding:0 14px 0 9px}
+  .logo-img{height:32px}
   .logo{gap:8px}
   .acts .wa{display:none}
   .island.acts{padding:6px}
@@ -844,17 +853,16 @@ img.fb-hide{opacity:0}
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="logo" viewBox="0 0 40 40"><rect width="40" height="40" rx="12" fill="#06837f"/><path d="M14 30V10h7.5a6.5 6.5 0 0 1 0 13H14" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29.5" cy="29.5" r="3.4" fill="#fdc100"/></symbol>
 </svg>
 <div class="progress" aria-hidden="true"></div>
-<div class="curtain" aria-hidden="true"><span></span><span></span><span></span><span></span><div class="cl"><svg><use href="#logo"/></svg></div></div>
+<div class="curtain" aria-hidden="true"><span></span><span></span><span></span><span></span><div class="cl"><img src="images/logo-light.png" alt="" width="612" height="181"></div></div>
 
 <!-- ================= NAV ================= -->
 <header class="nav" id="nav">
   <div class="nav-in">
     <a href="#/" class="island brand logo" data-route="/" aria-label="Preplan Holidays home">
-      <svg><use href="#logo"/></svg>
-      <span>Preplan<small>Holidays</small></span>
+      <img class="logo-img logo-on-dark" src="images/logo-light.png" alt="" width="612" height="181">
+      <img class="logo-img logo-on-light" src="images/logo.svg" alt="" width="1223" height="361">
     </a>
     <nav class="island links" aria-label="Primary">
       <span class="nav-pill"></span>
@@ -1226,7 +1234,7 @@ img.fb-hide{opacity:0}
     </div>
     <div class="foot-cols">
       <div class="rv">
-        <a href="#/" data-route="/" class="logo"><svg><use href="#logo"/></svg><span>Preplan<small>Holidays</small></span></a>
+        <a href="#/" data-route="/" class="logo" aria-label="Preplan Holidays home"><img class="logo-img" src="images/logo-light.png" alt="" width="612" height="181" loading="lazy"></a>
         <p class="foot-about">Italian city breaks with central hotels, breakfast and every local fee explained before you pay.</p>
         <form class="news" id="news"><input type="email" placeholder="Get trip ideas by email" aria-label="Email address" required><button>Subscribe</button></form>
       </div>
