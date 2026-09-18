@@ -143,7 +143,7 @@ function nav(active) {
       ${links}
     </nav>
     <div class="island acts">
-      <a class="wa" href="${wa()}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="ph-light ph-whatsapp-logo"></i></a>
+      <a class="call" href="tel:${cfg.phoneHref}" aria-label="Call us on ${attr(cfg.phone)}" title="Call ${attr(cfg.phone)}"><i class="ph-fill ph-phone-call"></i></a>
       <a class="btn btn-gold btn-sm" href="/contact">Plan my trip<span class="ico"><i class="ph-bold ph-arrow-right"></i></span></a>
       <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mmenu"><span></span><span></span><span></span></button>
     </div>
@@ -197,6 +197,7 @@ function footer(guides) {
     </div>
   </div>
 </footer>
+<a class="wfloat" href="${wa("Hi Preplan, I'd like help planning a trip.")}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp"><span class="wf-ping" aria-hidden="true"></span><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i><span class="wf-label">Chat on WhatsApp</span></a>
 <div class="toast" id="toast" role="status" aria-live="polite"><i class="ph-bold ph-check"></i><span></span></div>
 <script src="/assets/js/site.js?v=${cfg.assetVersion}" defer></script>`;
 }

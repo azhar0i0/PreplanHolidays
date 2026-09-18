@@ -2,6 +2,7 @@ const cfg = require("../config");
 const D = require("../data");
 const H = require("../html");
 const { esc, money, img, card, faqBlock, reviewCard, wa } = H;
+const { gcard } = require("./guides");
 
 const HOME_SET = ["rome-trevi-three-nights", "italy-big-three", "venice-grand-canal", "rome-and-florence", "dubai-abu-dhabi-seven-nights", "aegean-athens-santorini-mykonos", "istanbul-cappadocia-antalya", "alaska-inside-passage-glacier-bay"];
 
@@ -17,7 +18,7 @@ module.exports = function home({ guides }) {
     <div class="line"><i class="ph-light ph-map-pin-line"></i>${c.addr}</div><div class="line"><i class="ph-light ph-bed"></i>${c.room}, ${c.board.toLowerCase()}</div><div class="line"><i class="ph-light ph-arrow-right"></i><a href="/italy/${k}">All ${c.name} packages and city tax rules</a></div></div></div>
     <div class="fp-tiles">${c.tiles.map(t => `<div class="fp-tile"><span class="ti"><i class="ph-light ${t[0]}"></i></span><h4>${t[1]}</h4><p>${t[2]}</p></div>`).join("")}</div></div>`; }).join("");
   const faqs = D.FAQ.filter(f => ["Do I pay anything at the hotel?", "Are flights included in the Italy hotel packages?", "How does the Venice city tax work?", "Is my bed preference guaranteed?", "Are your prices per person or per room?", "How far in advance should I book?"].includes(f[1]));
-  const guideCards = guides.slice(0, 3).map(g => `<a class="gcard rv" href="/guides/${g.slug}">${img(g.photo, { alt: g.imageAlt, sizes: "(max-width:767px) 100vw, 33vw" })}<div class="gb"><span class="kicker">${esc(g.kicker)}</span><h3>${esc(g.title)}</h3><p>${esc(g.excerpt)}</p><span class="rt"><i class="ph-light ph-clock"></i>${g.readTime} min read</span></div></a>`).join("");
+  const guideCards = guides.slice(0, 3).map((g, i) => gcard(g, i)).join("");
 
   const body = `
   <section class="hero" id="top">

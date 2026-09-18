@@ -100,13 +100,14 @@ p{margin:0}
 .nav-link{position:relative;z-index:1;height:50px;display:inline-flex;align-items:center;padding:0 18px;border-radius:99px;font-weight:600;font-size:.9rem;transition:color .45s var(--ease)}
 .nav-pill{position:absolute;z-index:0;top:6px;height:50px;left:0;width:0;border-radius:99px;background:#fff;transition:transform .6s var(--ease),width .6s var(--ease),opacity .4s;opacity:0}
 .nav-link.on{color:var(--ink)}
-.acts .wa{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;font-size:1.35rem;background:rgba(255,255,255,.14);transition:transform .5s var(--spring),background-color .4s}
-.acts .wa:hover{transform:rotate(-10deg) scale(1.06);background:var(--strong-cyan);color:var(--ink)}
+.acts .call{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;font-size:1.3rem;background:rgba(255,255,255,.14);transition:transform .5s var(--spring),background-color .4s,color .4s}
+.acts .call:hover{transform:rotate(-12deg) scale(1.06);background:var(--strong-cyan);color:var(--ink)}
 .acts .btn{height:50px}
 .nav.solid .island{background:rgba(255,255,255,.82);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line),0 12px 30px -18px rgba(6,60,58,.35)}
 .nav.solid .nav-pill{background:var(--ink)}
 .nav.solid .nav-link.on{color:#fff}
-.nav.solid .acts .wa{background:var(--mist)}
+.nav.solid .acts .call{background:var(--mist);color:var(--teal)}
+.nav.solid .acts .call:hover{background:var(--strong-cyan);color:var(--ink)}
 .nav.solid .nav-in{max-width:1140px}
 .burger{display:none;width:50px;height:50px;border-radius:50%;position:relative;background:var(--school-bus-yellow);color:var(--ink);transition:transform .5s var(--spring)}
 .burger span{position:absolute;left:15px;right:15px;height:2px;border-radius:2px;background:var(--ink);transition:transform .6s var(--ease-io),opacity .3s,top .6s var(--ease-io)}
@@ -693,6 +694,18 @@ p{margin:0}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));z-index:110;transform:translate(-50%,40px);opacity:0;display:flex;align-items:center;gap:10px;padding:12px 18px 12px 12px;border-radius:99px;background:var(--ink);color:#fff;font-size:.9rem;font-weight:500;box-shadow:0 20px 40px -14px rgba(3,32,31,.6);transition:transform .6s var(--spring),opacity .4s;pointer-events:none;max-width:calc(100vw - 32px)}
 .toast.show{transform:translate(-50%,0);opacity:1}
 .toast i{width:30px;height:30px;border-radius:50%;background:var(--school-bus-yellow);color:var(--ink);display:grid;place-items:center;font-size:1rem;flex:none}
+/* floating WhatsApp */
+.wfloat{--lift:0px;position:fixed;right:clamp(14px,2.4vw,26px);bottom:calc(clamp(14px,2.4vw,26px) + env(safe-area-inset-bottom));z-index:70;display:inline-flex;align-items:center;height:60px;padding:0 11px;border-radius:99px;background:#25d366;color:#fff;font-weight:600;font-size:.92rem;box-shadow:0 14px 30px -10px rgba(18,140,64,.75),0 2px 6px rgba(7,36,35,.18);transform:translateY(var(--lift));transition:transform .6s var(--ease),background-color .4s,box-shadow .5s var(--ease)}
+.wfloat i{position:relative;width:38px;height:38px;flex:none;display:grid;place-items:center;font-size:2rem}
+.wf-label{position:relative;max-width:0;overflow:hidden;white-space:nowrap;opacity:0;transition:max-width .6s var(--ease),opacity .35s,margin .6s var(--ease)}
+.wf-ping{position:absolute;inset:0;border-radius:inherit;animation:wfping 2.8s ease-out infinite;pointer-events:none}
+@keyframes wfping{0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}70%,100%{box-shadow:0 0 0 18px rgba(37,211,102,0)}}
+.wfloat:hover,.wfloat:focus-visible{--lift:-3px;background:#1ebe5b}
+.wfloat:hover .wf-label,.wfloat:focus-visible .wf-label{max-width:180px;opacity:1;margin:0 10px 0 6px}
+.wfloat:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:99px}
+body:has(.mbar.show) .wfloat{--lift:-76px}
+.menu-open .wfloat{opacity:0;visibility:hidden}
+@media (max-width:767px){.wfloat{height:56px;padding:0 9px}.wfloat i{font-size:1.85rem}.wf-label{display:none}}
 img.fb-hide{opacity:0}
 
 /* ---------- responsive ---------- */
@@ -708,7 +721,7 @@ img.fb-hide{opacity:0}
 @media (max-width:1024px){
   .island.links,.acts .btn{display:none}
   .burger{display:block}
-  .acts .wa{display:grid}
+  .acts .call{display:grid}
   .nav.solid .nav-in{max-width:100%}
   .hero-grid{grid-template-columns:1fr}
   .hero-side{display:none}
@@ -751,7 +764,7 @@ img.fb-hide{opacity:0}
   .island{height:58px}
   .island.brand{padding:0 16px 0 10px}
   .logo-img{height:36px}
-  .acts .wa,.burger{width:46px;height:46px}
+  .acts .call,.burger{width:46px;height:46px}
   .burger span{left:14px;right:14px}.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:22px;right:19px}.burger span:nth-child(3){top:27px}
   .menu-open .burger span:nth-child(1),.menu-open .burger span:nth-child(3){top:22px}
   .mmenu{clip-path:circle(0px at calc(100% - 42px) 39px)}
@@ -823,7 +836,7 @@ img.fb-hide{opacity:0}
   .island.brand{padding:0 14px 0 9px}
   .logo-img{height:32px}
   .logo{gap:8px}
-  .acts .wa{display:none}
+  .acts .call{display:none}
   .island.acts{padding:6px}
 }
 @media (prefers-reduced-motion:reduce){

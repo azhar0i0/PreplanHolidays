@@ -6,8 +6,16 @@ const { esc, img, grid } = H;
 
 const fmtDate = iso => new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "America/New_York" });
 
+const fmtShort = iso => new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "America/New_York" });
+
+// Guide card, shared by /guides and the home page. `feature` is the wide lead card on /guides.
 function gcard(g, i = 0, feature = false) {
-  return `<a class="gcard rv${feature ? " feature" : ""}" style="--d:${(i % 3) * 90}" href="/guides/${g.slug}">${img(g.photo, { alt: g.imageAlt, sizes: feature ? "(max-width:767px) 100vw, 55vw" : "(max-width:767px) 100vw, 33vw" })}<div class="gb"><span class="kicker">${esc(g.kicker)}</span>${feature ? `<h2>${esc(g.title)}</h2>` : `<h3>${esc(g.title)}</h3>`}<p>${esc(g.excerpt)}</p><span class="rt"><i class="ph-light ph-clock"></i>${g.readTime} min read · Updated ${fmtDate(g.modified)}</span></div></a>`;
+  const sizes = feature ? "(max-width:767px) 100vw, 55vw" : "(max-width:767px) 100vw, (max-width:1180px) 50vw, 400px";
+  return `<a class="gcard rv${feature ? " feature" : ""}" style="--d:${(i % 3) * 90}" href="/guides/${g.slug}"><div class="gcard-in">
+  <div class="gc-img">${img(g.photo, { alt: g.imageAlt, sizes })}<span class="gc-kicker"><i class="ph-fill ph-bookmark-simple"></i>${esc(g.kicker)}</span></div>
+  <div class="gb">${feature ? `<h2>${esc(g.title)}</h2>` : `<h3>${esc(g.title)}</h3>`}<p>${esc(g.excerpt)}</p>
+  <div class="gc-foot"><span class="rt"><i class="ph-light ph-clock"></i>${g.readTime} min read</span><time datetime="${g.modified.slice(0, 10)}">Updated ${fmtShort(g.modified)}</time></div>
+  <span class="go-cta" aria-hidden="true">Read guide<i class="ph-bold ph-arrow-right"></i></span></div></div></a>`;
 }
 
 function index({ guides }) {
