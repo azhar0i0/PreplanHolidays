@@ -33,13 +33,6 @@ function list({ guides }) {
     </div>
     <div class="grid4" id="allGrid" style="padding-bottom:clamp(40px,6vw,80px)">${D.P.map((p, i) => card(p, i, "rv")).join("\n")}</div>
   </div>
-  <section class="sec" style="padding-top:0"><div class="wrap">
-    <div class="h-sec"><h2 class="h2 rv">Browse by destination</h2><p class="lead rv">Each destination page has the hotel we use, the local city tax, how to get in from the airport and the packages that include it.</p></div>
-    <div class="dest-grid">
-      ${Object.values(D.C).map((c, i) => `<a class="dcard rv" style="--d:${i * 80}" href="/italy/${c.slug}">${img(c.imgs[0], { alt: `${c.ia[0]}, ${c.name}`, sizes: "(max-width:767px) 50vw, 33vw" })}<span class="arr"><i class="ph-light ph-arrow-up-right"></i></span><div><h3>${c.name}</h3><span>${D.P.filter(p => p.c.includes(c.slug)).length} packages, from ${money(c.price)}</span></div></a>`).join("")}
-      ${["europe", "middleeast", "asia", "caribbean", "americas", "cruises"].map((k, i) => { const ps = D.P.filter(p => p.region === k); const href = k === "cruises" ? "/cruises" : `/destinations/${D.RG_SLUG[k]}`; return `<a class="dcard rv" style="--d:${(i + 4) * 80}" href="${href}">${img(ps[0].im, { alt: `${D.RG[k]} vacation packages`, sizes: "(max-width:767px) 50vw, 33vw" })}<span class="arr"><i class="ph-light ph-arrow-up-right"></i></span><div><h3>${D.RG[k]}</h3><span>${ps.length} package${ps.length === 1 ? "" : "s"}, from ${money(Math.min(...ps.filter(p => p.price).map(p => p.price)))}</span></div></a>`; }).join("")}
-    </div>
-  </div></section>
   ${H.cta({ h: "Can't see the exact trip you want?", p: "Most of our bookings start as a custom request. Tell us the cities and dates and we price it within a day.", text: "Hi Preplan, I'd like a custom trip quote." })}`;
 
   return H.page({
@@ -71,7 +64,7 @@ function detail(p, { guides }) {
   const heroAlt = H.photo(imgs[0]).alt || (W_ ? `${p.t}, ${p.country}` : `${p.t}, ${cities.map(c => c.name).join(", ")}`);
   const stops = W_ ? p.route.split("·").map(x => x.trim()) : [];
   const wTravel = cruise ? ["ph-boat", p.ship] : W_ && p.tags.includes("plane") ? ["ph-airplane-tilt", "Flights included"] : ["ph-map-trifold", "Land only"];
-  const crumbPath = W_ ? (cruise ? [{ name: "Cruises", href: "/cruises" }] : [{ name: "Destinations", href: "/destinations" }, { name: D.RG[p.region], href: `/destinations/${D.RG_SLUG[p.region]}` }]) : [{ name: "Italy", href: "/italy" }, ...(p.multi ? [{ name: "Multi-city", href: "/italy/multi-city" }] : [{ name: cities[0].name, href: `/italy/${cities[0].slug}` }])];
+  const crumbPath = [{ name: "Packages", href: "/packages" }];
   const crumbs = [{ name: "Home", href: "/" }, ...crumbPath, { name: p.t }];
 
   /* itinerary */
@@ -167,7 +160,7 @@ ${W_ ? `      <div class="d-sec"><h2 class="rv">The route</h2><div class="wstops
       <div class="d-sec"><h2 class="rv">Where you'll stay</h2><div class="hotels">
         ${p.c.map((k, i) => { const c = D.C[k]; return `<div class="hotel rv" style="--d:${i * 90}"><div class="hp">${img(c.hp[0], { alt: `${c.hotel}, ${c.name}`, sizes: "(max-width:767px) 100vw, 170px" })}</div><div class="hi"><h3>${c.hotel}</h3>
         <div class="row"><i class="ph-light ph-map-pin-line"></i>${c.addr}</div><div class="row"><i class="ph-light ph-train"></i>Nearest station: ${c.station}</div>
-        <div class="row"><i class="ph-light ph-bed"></i>${c.room}, ${c.nights} nights. ${c.bed}.</div><div class="pills">${c.perks.map(x => `<span>${x}</span>`).join("")}</div><div class="row"><i class="ph-light ph-arrow-right"></i><a href="/italy/${c.slug}">More about staying in ${c.name}</a></div></div></div>`; }).join("")}
+        <div class="row"><i class="ph-light ph-bed"></i>${c.room}, ${c.nights} nights. ${c.bed}.</div><div class="pills">${c.perks.map(x => `<span>${x}</span>`).join("")}</div></div></div>`; }).join("")}
       </div></div>`}
       <div class="d-sec"><h2 class="rv">What's included</h2><div class="inc">
         <div class="inc-col yes rv"><h3><i class="ph-fill ph-check-circle" style="color:var(--teal)"></i>Included</h3><ul>

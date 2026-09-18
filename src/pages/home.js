@@ -2,7 +2,7 @@ const cfg = require("../config");
 const D = require("../data");
 const H = require("../html");
 const { esc, money, img, card, faqBlock, reviewCard, wa } = H;
-const { gcard } = require("./guides");
+
 
 const HOME_SET = ["rome-trevi-three-nights", "italy-big-three", "venice-grand-canal", "rome-and-florence", "dubai-abu-dhabi-seven-nights", "aegean-athens-santorini-mykonos", "istanbul-cappadocia-antalya", "alaska-inside-passage-glacier-bay"];
 
@@ -11,14 +11,15 @@ module.exports = function home({ guides }) {
   const hero = H.photo(heroId);
   const side = ["grand-italian-four", "florence-and-venice", "milan-garibaldi-break"].map((s, i) => { const p = D.bySlug[s]; return `<a class="hero-card rv right" style="--d:${500 + i * 120}" href="/packages/${s}">${img(p.im, { alt: p.t, sizes: "64px", cls: "" })}<div><b>${esc(p.t)}</b><span>${p.nights} nights</span></div><span class="pr">${money(p.price)}</span></a>`; }).join("");
   const cards = D.P.map((p, i) => card(p, i, "rv", HOME_SET.includes(p.s) ? "" : "more").replace('class="card rv', `data-home="${HOME_SET.includes(p.s) ? 1 : 0}" class="card rv`)).join("\n");
-  const show = ["rome", "venice", "florence", "milan"].map((k, i) => { const c = D.C[k]; const p = D.P.find(p => !p.w && p.c.length === 1 && p.c[0] === k); return `<a class="scard rv" style="--d:${i * 110}" href="/italy/${k}">${img(c.imgs[0], { alt: `${c.ia[0]}, ${c.name}`, sizes: "(max-width:1024px) 72vw, 25vw" })}<span class="arr"><i class="ph-light ph-arrow-right"></i></span><div class="sc-b"><h3>${c.name} vacation packages</h3><div class="sc-m"><span>From ${p.nights} nights</span><b>From ${money(p.price)}</b></div></div></a>`; }).join("");
+  const cityPkg = k => D.P.find(p => !p.w && p.c.length === 1 && p.c[0] === k);
+  const show = ["rome", "venice", "florence", "milan"].map((k, i) => { const c = D.C[k]; const p = cityPkg(k); return `<a class="scard rv" style="--d:${i * 110}" href="/packages/${p.s}">${img(c.imgs[0], { alt: `${c.ia[0]}, ${c.name}`, sizes: "(max-width:1024px) 72vw, 25vw" })}<span class="arr"><i class="ph-light ph-arrow-right"></i></span><div class="sc-b"><h3>${c.name} vacation packages</h3><div class="sc-m"><span>From ${p.nights} nights</span><b>From ${money(p.price)}</b></div></div></a>`; }).join("");
   const keys = ["rome", "florence", "venice", "milan"];
   const fpTabs = keys.map((k, i) => `<button class="tab${i ? "" : " on"}" id="fptab-${k}" role="tab" aria-selected="${!i}" aria-controls="fp-${k}" data-k="${k}"><i class="ph-light ph-map-pin"></i>${D.C[k].name}</button>`).join("");
   const fpPanels = keys.map((k, i) => { const c = D.C[k]; return `<div class="fp-panel rv" id="fp-${k}" role="tabpanel" aria-labelledby="fptab-${k}" data-fp="${k}"${i ? " hidden" : ""}><div class="fp-hotel"><div class="ph">${img(c.hp[0], { alt: `${c.hotel}, ${c.name}`, sizes: "(max-width:1024px) 100vw, 40vw" })}</div><div class="hb"><h3>${c.hotel}</h3>
-    <div class="line"><i class="ph-light ph-map-pin-line"></i>${c.addr}</div><div class="line"><i class="ph-light ph-bed"></i>${c.room}, ${c.board.toLowerCase()}</div><div class="line"><i class="ph-light ph-arrow-right"></i><a href="/italy/${k}">All ${c.name} packages and city tax rules</a></div></div></div>
+    <div class="line"><i class="ph-light ph-map-pin-line"></i>${c.addr}</div><div class="line"><i class="ph-light ph-bed"></i>${c.room}, ${c.board.toLowerCase()}</div><div class="line"><i class="ph-light ph-arrow-right"></i><a href="/packages/${cityPkg(k).s}">See the ${c.name} package</a></div></div></div>
     <div class="fp-tiles">${c.tiles.map(t => `<div class="fp-tile"><span class="ti"><i class="ph-light ${t[0]}"></i></span><h4>${t[1]}</h4><p>${t[2]}</p></div>`).join("")}</div></div>`; }).join("");
   const faqs = D.FAQ.filter(f => ["Do I pay anything at the hotel?", "Are flights included in the Italy hotel packages?", "How does the Venice city tax work?", "Is my bed preference guaranteed?", "Are your prices per person or per room?", "How far in advance should I book?"].includes(f[1]));
-  const guideCards = guides.slice(0, 3).map((g, i) => gcard(g, i)).join("");
+
 
   const body = `
   <section class="hero" id="top">
@@ -34,7 +35,7 @@ module.exports = function home({ guides }) {
           <p class="sub rv" style="--d:420">Prepaid city breaks with central hotels, breakfast included and every city tax explained upfront. Plus flight-inclusive holidays and cruises worldwide, priced in US dollars.</p>
           <div class="hero-cta rv" style="--d:540">
             <a class="btn btn-gold" href="/packages">Browse packages<span class="ico"><i class="ph-bold ph-arrow-right"></i></span></a>
-            <a class="btn btn-glass" href="/how-it-works">How it works<span class="ico"><i class="ph-light ph-play"></i></span></a>
+            <a class="btn btn-glass" href="#how">How it works<span class="ico"><i class="ph-light ph-play"></i></span></a>
           </div>
         </div>
         <div class="hero-side" id="heroSide">${side}</div>
@@ -110,29 +111,12 @@ module.exports = function home({ guides }) {
     </div>
   </section>
 
-  <section class="sec job">
-    <div class="wrap job-grid">
-      <div>
-        <h2 class="rv blur">Booking a great holiday shouldn't feel like a <span>second job.</span></h2>
-        <p class="lead rv" style="--d:120">Most of the work in a city break happens before you leave: comparing, cross-checking and reading the small print. That part is our job now.</p>
-        <a class="btn btn-gold rv" style="--d:220" href="/how-it-works">Show me how<span class="ico"><i class="ph-bold ph-arrow-right"></i></span></a>
-      </div>
-      <div class="chores">
-        <div class="chore rv right" style="--d:0"><i class="ph-light ph-browsers"></i><p>Thirty open tabs of hotel reviews</p></div>
-        <div class="chore rv right" style="--d:120"><i class="ph-light ph-coffee"></i><p>Working out if breakfast is included or extra</p></div>
-        <div class="chore rv right" style="--d:240"><i class="ph-light ph-receipt"></i><p>Guessing how much city tax to budget per night</p></div>
-        <div class="chore rv right" style="--d:360"><i class="ph-light ph-bed"></i><p>Hoping the twin room is actually twin beds</p></div>
-        <div class="chore rv right" style="--d:480"><i class="ph-light ph-train"></i><p>Matching check-out in one city to check-in at the next</p></div>
-        <div class="chore fix rv right" style="--d:640"><i class="ph-fill ph-chat-circle-dots"></i><p>Or send Preplan one message and get it all back sorted.</p></div>
-      </div>
-    </div>
-  </section>
 
   <section class="sec" id="how">
     <div class="wrap">
       <div class="steps-head">
         <h2 class="h2 rv">Three steps from idea to boarding pass</h2>
-        <p class="lead rv" style="--d:100;margin-top:14px">No forms longer than a text message. Most trips are confirmed within a day. <a href="/how-it-works">Read the full process</a>.</p>
+        <p class="lead rv" style="--d:100;margin-top:14px">No forms longer than a text message. Most trips are confirmed within a day.</p>
       </div>
       <div class="steps rv" id="stepsWrap">
         <div class="steps-line" aria-hidden="true"><svg viewBox="0 0 1000 24" preserveAspectRatio="none"><path d="M0 12 C 250 -10, 500 34, 1000 12"/><path class="draw" d="M0 12 C 250 -10, 500 34, 1000 12"/></svg></div>
@@ -165,7 +149,7 @@ module.exports = function home({ guides }) {
           <h2 class="h2 rv">Four Italian cities, four very different stays</h2>
           <p class="lead rv" style="--d:100">A room by the Trevi Fountain, a canal-side hotel in San Marco, a Renaissance weekend and a design-city break. Breakfast and prepaid rooms included.</p>
         </div>
-        <a class="link-arrow rv" style="--d:180" href="/italy">All Italy packages<i class="ph-bold ph-arrow-right"></i></a>
+        <a class="link-arrow rv" style="--d:180" href="/packages">All packages<i class="ph-bold ph-arrow-right"></i></a>
       </div>
       <div class="show-row" id="showRow">${show}</div>
       <div class="stats">
@@ -182,7 +166,7 @@ module.exports = function home({ guides }) {
       <div class="fp-head">
         <span class="tag rv"><i class="ph-light ph-magnifying-glass"></i>No surprises at check-in</span>
         <h2 class="h2 rv" style="--d:80;margin-top:16px">The fine print, translated into plain English</h2>
-        <p class="lead rv" style="--d:160;margin-top:14px">Every hotel has its own rules. Here is what each one actually means for you before you pay. Full details on the <a href="/fees-and-policies">city taxes and hotel policies</a> page.</p>
+        <p class="lead rv" style="--d:160;margin-top:14px">Every hotel has its own rules. Here is what each one actually means for you before you pay.</p>
       </div>
       <div class="tabs rv" id="fpTabs" role="tablist"><span class="tab-ind"></span>${fpTabs}</div>
       <div id="fpPanel">${fpPanels}</div>
@@ -208,27 +192,18 @@ module.exports = function home({ guides }) {
           <button class="icon-btn" id="rvNext" type="button" aria-label="Next review"><i class="ph-light ph-arrow-right"></i></button>
           <div class="rv-prog"><i id="rvProg"></i></div>
         </div>
-        <p class="rv" style="--d:320;margin-top:22px"><a class="link-arrow" href="/reviews">Read all reviews<i class="ph-bold ph-arrow-right"></i></a></p>
+
       </div>
       <div class="deck rv scale" id="deck" style="--d:150">${D.REVIEWS.slice(0, 6).map(reviewCard).join("")}</div>
     </div>
   </section>
 
-  <section class="sec" id="guides" style="padding-top:0">
-    <div class="wrap">
-      <div class="pk-head">
-        <div><h2 class="h2 rv">Plan smarter with our Italy guides</h2><p class="lead rv" style="--d:100;margin-top:14px">City taxes, train times, how many nights each city deserves. Written by the planners who book these trips every week.</p></div>
-        <a class="link-arrow rv" href="/guides">All guides<i class="ph-bold ph-arrow-right"></i></a>
-      </div>
-      <div class="glist">${guideCards}</div>
-    </div>
-  </section>
 
   <section class="sec" id="faq" style="padding-top:0">
     <div class="wrap faq-grid">
       <div class="faq-side">
         <h2 class="h2 rv">Questions people ask before they book</h2>
-        <p class="lead rv" style="--d:100;margin-top:14px">Straight answers about fees, rooms and what happens at the front desk. <a href="/faq">See all ${D.FAQ.length} questions</a>.</p>
+        <p class="lead rv" style="--d:100;margin-top:14px">Straight answers about fees, rooms and what happens at the front desk.</p>
         <div class="faq-help rv" style="--d:180"><div class="faq-help-in">
           <h3>Still not sure?</h3>
           <p>Send the question on WhatsApp. A planner usually replies within the hour.</p>

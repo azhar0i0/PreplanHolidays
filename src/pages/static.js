@@ -2,7 +2,7 @@ const cfg = require("../config");
 const D = require("../data");
 const H = require("../html");
 const { PPH } = require("./packages");
-const { esc, money, img, grid, faqBlock, reviewCard, wa } = H;
+const { esc, money, img, wa } = H;
 
 const scripts = () => `<script>window.PPH=${H.json({ ...PPH(), packages: D.P.map(p => ({ s: p.s, t: p.t, sub: `${p.dur || p.nights + " nights"}, ${p.quote ? "on request" : "from " + money(p.price)}` })) })}</script>`;
 const bc = items => H.breadcrumbLd(items);
@@ -38,7 +38,7 @@ function about({ guides }) {
   </div></section>
   <section class="sec" style="padding-top:0"><div class="wrap">
     <div class="h-sec"><h2 class="h2 rv">The hotels we use in Italy</h2><p class="lead rv">We would rather know four hotels well than list four hundred.</p></div>
-    <div class="hotels">${Object.values(D.C).map((c, i) => `<div class="hotel rv" style="--d:${i * 80}"><div class="hp">${img(c.hp[0], { alt: `${c.hotel}, ${c.name}`, sizes: "(max-width:767px) 100vw, 170px" })}</div><div class="hi"><h3>${c.hotel}</h3><div class="row"><i class="ph-light ph-map-pin-line"></i>${c.addr}</div><div class="row"><i class="ph-light ph-bed"></i>${c.room}, ${c.board.toLowerCase()}</div><div class="row"><i class="ph-light ph-arrow-right"></i><a href="/italy/${c.slug}">${c.name} packages and city guide</a></div></div></div>`).join("")}</div>
+    <div class="hotels">${Object.values(D.C).map((c, i) => `<div class="hotel rv" style="--d:${i * 80}"><div class="hp">${img(c.hp[0], { alt: `${c.hotel}, ${c.name}`, sizes: "(max-width:767px) 100vw, 170px" })}</div><div class="hi"><h3>${c.hotel}</h3><div class="row"><i class="ph-light ph-map-pin-line"></i>${c.addr}</div><div class="row"><i class="ph-light ph-bed"></i>${c.room}, ${c.board.toLowerCase()}</div><div class="row"><i class="ph-light ph-arrow-right"></i><a href="/packages/${D.P.find(p => !p.w && p.c.length === 1 && p.c[0] === c.slug).s}">See the ${c.name} package</a></div></div></div>`).join("")}</div>
   </div></section>
   <section class="sec" style="padding-top:0"><div class="wrap"><div class="prose" style="max-width:none">
     <h2 id="details">Company details</h2>
@@ -47,70 +47,6 @@ function about({ guides }) {
   </div></div></section>
   ${H.cta({ h: "Say hello", p: "Tell us where you want to wake up and we will take it from there." })}`;
   return H.page({ path: "/about", title: `About Preplan Holidays: Italy City Break Specialists Since ${cfg.founded}`, desc: `A small ${cfg.address.city} travel agency booking prepaid hotel-and-breakfast city breaks in Rome, Florence, Venice and Milan, plus holidays worldwide. Meet the team.`, ogImage: H.abs("/images/og/about.jpg"), active: "about", guides, body, ld: [bc(crumbs), { "@type": "AboutPage", name: "About Preplan Holidays", url: H.abs("/about"), mainEntity: { "@id": H.ORG_ID } }], scripts: scripts() });
-}
-
-/* ---------------- how it works ---------------- */
-function howItWorks({ guides }) {
-  const crumbs = [{ name: "Home", href: "/" }, { name: "How it works" }];
-  const steps = [
-    ["ph-chat-teardrop-text", "Tell us the rough idea", "Cities, dates, who is coming. \"Rome and Florence in October for four of us\" is plenty. Send it by WhatsApp, email or the contact form; flexible dates are welcome and usually get you a better price.", ["Reply within one working day, usually within the hour", "No deposit, no commitment"]],
-    ["ph-list-checks", "We shortlist and hold rooms", "You get one short summary: the hotel, the room type, the board, the city tax in euros, every hotel rule that applies, and the train plan if there is more than one city. Bed requests go to the hotel at this stage.", ["Rooms held for 48 hours while you decide", "Everything in one message, not thirty tabs"]],
-    ["ph-credit-card", "Pay once", "Card or bank transfer, in US dollars, for the whole trip. We pay the hotels. There is nothing to pay at check-in except the local city tax and anything you order from the minibar.", ["Secure card payment or transfer", "Invoice with every line itemised"]],
-    ["ph-ticket", "Get your vouchers", "A prepaid voucher for each hotel plus a day-by-day plan you can open offline, with train times, stations, reservations you have made and what to pay where. For Venice, the access-fee exemption link is included.", ["PDF pack by email and WhatsApp", "Hotels told your arrival time"]],
-    ["ph-headset", "Travel with backup", "The WhatsApp line is open for the whole trip. Room not as booked, train strike, lost voucher: message us and we deal with it while you carry on.", ["Real planner, not a bot", "Seven days a week"]]
-  ];
-  const body = `
-  ${H.pageTop({ crumbs, h1: "From one message to boarding pass, in five steps", lead: "No forms longer than a text message. Most trips are confirmed within a day. Here is exactly what happens between your first message and your first breakfast." })}
-  <section class="sec"><div class="wrap"><div class="steps" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
-    ${steps.map((s, i) => `<article class="step rv" style="--d:${i * 100};margin-top:0"><div class="step-in"><div class="step-top"><span class="step-n">0${i + 1}</span><span class="step-ic"><i class="ph-light ${s[0]}"></i></span></div><h2 style="font-size:1.3rem">${s[1]}</h2><p>${s[2]}</p><ul>${s[3].map(x => `<li><i class="ph-bold ph-check"></i>${x}</li>`).join("")}</ul></div></article>`).join("")}
-  </div></div></section>
-  <section class="sec" style="padding-top:0"><div class="wrap article" style="padding-top:0">
-    <div class="prose">
-      <h2 id="prices">How prices work</h2>
-      <p>Italy hotel packages are priced per person based on two adults sharing one room, with breakfast every morning, in US dollars. Multi-city packages are 7% lower than the same nights booked separately. Children aged 2 to 17 sharing with two adults are priced at 60% of the adult rate; third and fourth adults in a room are quoted individually and are usually cheaper. Flights are not included in Italy hotel packages. Train tickets between cities are optional at $45 per person per leg.</p>
-      <p>Worldwide packages are per person, two sharing, and include return international flights from the USA unless the page says land only. The price shown is the lowest fare we hold for that route; your exact price depends on departure city and dates, and we confirm it before you pay anything. Cruise fares are for the lowest cabin grade on a specific sailing and include port fees.</p>
-      <h2 id="changes">Changes and cancellations</h2>
-      <p>Every hotel has its own rules and we show them on the package page and in your summary before you pay. Across our four Italian hotels: same-day cancellations and no-shows are charged in full; the Venice hotel does not allow the check-in date to change after booking; the others usually allow changes subject to availability if we ask early. For worldwide packages and cruises, airline and cruise-line terms apply and we quote them with the price. Full details are in our <a href="/terms">terms of booking</a>.</p>
-      <h2 id="pay">Ways to pay</h2>
-      <p>Major credit and debit cards, or bank transfer. For worldwide packages a deposit secures flights and the balance is due before departure on a date we agree with you. Travel insurance is offered at booking ($24 per person for Italy hotel packages) and we strongly recommend it for any trip with flights.</p>
-    </div>
-    <aside class="side"><div class="side-card dark"><h3>Start with a message</h3><p>Dates, cities and who is coming. That is all we need.</p><a class="btn btn-gold btn-sm" href="${wa("Hi Preplan, I'd like to start planning a trip.")}" target="_blank" rel="noopener">WhatsApp a planner<span class="ico"><i class="ph-light ph-whatsapp-logo"></i></span></a></div>
-    <div class="side-card"><h3>Useful reading</h3><ul><li><a href="/faq"><i class="ph-light ph-arrow-right"></i>Frequently asked questions</a></li><li><a href="/fees-and-policies"><i class="ph-light ph-arrow-right"></i>City taxes and hotel policies</a></li><li><a href="/guides/italy-tourist-tax-2026"><i class="ph-light ph-arrow-right"></i>Italy tourist tax 2026</a></li><li><a href="/reviews"><i class="ph-light ph-arrow-right"></i>What travellers say</a></li></ul></div></aside>
-  </div></section>
-  ${H.cta({ h: "Ready to send the first message?", p: "Planners are online seven days a week." })}`;
-  const howLd = { "@type": "HowTo", name: "How to book a Preplan Holidays trip", description: "Five steps from first message to vouchers.", step: steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s[1], text: s[2] })) };
-  return H.page({ path: "/how-it-works", title: `How It Works: Booking a Prepaid City Break in 5 Steps | ${cfg.name}`, desc: "Send the rough idea, we shortlist and hold rooms, you pay once, you get prepaid vouchers and a day-by-day plan, and a planner is on WhatsApp for the whole trip.", ogImage: H.abs("/images/og/how-it-works.jpg"), active: "about", guides, body, ld: [bc(crumbs), howLd], scripts: scripts() });
-}
-
-/* ---------------- reviews ---------------- */
-function reviews({ guides }) {
-  const crumbs = [{ name: "Home", href: "/" }, { name: "Reviews" }];
-  const body = `
-  ${H.pageTop({ crumbs, h1: "What travellers say after the trip", lead: "Feedback we collect by email after every booking, published with the traveller's permission. Average rating 4.8 out of 5 from 1,284 verified trips." })}
-  <section class="sec"><div class="wrap">
-    <div class="rev-list">${D.REVIEWS.map(reviewCard).join("")}</div>
-    <p class="muted center" style="margin-top:28px;font-size:.9rem">Reviews are first-party feedback collected by Preplan Holidays and are not independently verified by a third-party platform. We publish them with the traveller's consent and edit only for length.</p>
-  </div></section>
-  <section class="sec" style="padding-top:0"><div class="wrap"><div class="pk-head"><h2 class="h2 rv">The trips they took</h2><a class="link-arrow rv" href="/packages">All packages<i class="ph-bold ph-arrow-right"></i></a></div>${grid([...new Set(D.REVIEWS.map(r => r.pkg))].slice(0, 4).map(s => D.bySlug[s]))}</div></section>
-  ${H.cta({ h: "Add your own", p: "Every trip gets a two-question feedback email a week after you get home." })}`;
-  return H.page({ path: "/reviews", title: `Preplan Holidays Reviews: What Travellers Say About Our Italy Trips`, desc: "Reviews from Preplan Holidays travellers on Rome, Florence, Venice, Milan, Dubai and Greece trips. Average 4.8 out of 5, published with permission.", ogImage: H.abs("/images/og/reviews.jpg"), active: "about", guides, body, ld: [bc(crumbs)], scripts: scripts() });
-}
-
-/* ---------------- faq ---------------- */
-function faq({ guides }) {
-  const crumbs = [{ name: "Home", href: "/" }, { name: "FAQ" }];
-  const body = `
-  ${H.pageTop({ crumbs, h1: "Questions people ask before they book", lead: "Straight answers about fees, rooms, flights and what happens at the front desk. Can't find yours? Ask on WhatsApp and a planner usually replies within the hour." })}
-  <section class="sec"><div class="wrap faq-grid">
-    <div class="faq-side">
-      <div class="faq-search rv"><div class="box"><i class="ph-light ph-magnifying-glass"></i><input id="faqQ" type="search" placeholder="Search questions, e.g. city tax" aria-label="Search questions"></div></div>
-      <div class="chips faq-cats rv" id="faqCats" style="--d:80" role="group" aria-label="Filter questions"><span class="chip-ind"></span><button class="chip-b on" type="button" data-f="all">All</button><button class="chip-b" type="button" data-f="book">Booking</button><button class="chip-b" type="button" data-f="fees">Fees</button><button class="chip-b" type="button" data-f="hotel">At the hotel</button></div>
-      <div class="faq-help rv" style="--d:180"><div class="faq-help-in"><h3>Still not sure?</h3><p>Send the question on WhatsApp. A planner usually replies within the hour.</p><a class="btn btn-gold btn-sm" href="${wa("Hi Preplan, I have a question.")}" target="_blank" rel="noopener">Ask on WhatsApp<span class="ico"><i class="ph-light ph-whatsapp-logo"></i></span></a></div></div>
-    </div>
-    <div>${faqBlock(D.FAQ)}<div class="empty" id="faqEmpty" style="display:none"><i class="ph-light ph-question"></i><h3>No matching questions</h3><p class="muted">Try another word, or ask us directly on WhatsApp.</p></div></div>
-  </div></section>
-  <section class="sec" style="padding-top:0"><div class="wrap"><div class="pk-head"><h2 class="h2 rv">Guides that go deeper</h2><a class="link-arrow rv" href="/guides">All guides<i class="ph-bold ph-arrow-right"></i></a></div><div class="glist">${guides.slice(0, 3).map((g, i) => require("./guides").gcard(g, i)).join("")}</div></div></section>`;
-  return H.page({ path: "/faq", title: `FAQ: City Taxes, Cancellations, Rooms and Flights | ${cfg.name}`, desc: "What you pay at the hotel, city tax in Milan and Venice, cancellations, bed preferences, breakfast rules, ID at check-in and whether flights are included.", ogImage: H.abs("/images/og/faq.jpg"), active: "about", guides, body, ld: [bc(crumbs), H.faqLd(D.FAQ.map(f => [f[1], f[2]]))], scripts: scripts() });
 }
 
 /* ---------------- contact ---------------- */
@@ -154,33 +90,6 @@ function contact({ guides }) {
   return H.page({ path: "/contact", title: `Contact Preplan Holidays: WhatsApp, Phone, Email and Enquiry Form`, desc: `WhatsApp or call ${cfg.phone}, email ${cfg.email}, or send the enquiry form. Planners reply within one working day, seven days a week.`, ogImage: H.abs("/images/og/contact.jpg"), active: "contact", guides, body, ld: [bc(crumbs), { "@type": "ContactPage", name: "Contact Preplan Holidays", url: H.abs("/contact"), mainEntity: { "@id": H.ORG_ID } }], scripts: scripts() });
 }
 
-/* ---------------- fees and policies ---------------- */
-function fees({ guides }) {
-  const crumbs = [{ name: "Home", href: "/" }, { name: "Fees and policies" }];
-  const keys = Object.keys(D.C);
-  const body = `
-  ${H.pageTop({ crumbs, h1: "City taxes and hotel policies, hotel by hotel", lead: "Every hotel has its own rules. Here is what each one actually means for you before you pay, plus the 2026 city-tax rates for all four cities." })}
-  <section class="sec"><div class="wrap">
-    <div class="tabs rv" id="fpTabs" role="tablist"><span class="tab-ind"></span>${keys.map((k, i) => `<button class="tab${i ? "" : " on"}" id="fptab-${k}" role="tab" aria-selected="${!i}" aria-controls="fp-${k}" data-k="${k}"><i class="ph-light ph-map-pin"></i>${D.C[k].name}</button>`).join("")}</div>
-    <div id="fpPanel">${keys.map((k, i) => { const c = D.C[k]; return `<div class="fp-panel rv" id="fp-${k}" role="tabpanel" aria-labelledby="fptab-${k}" data-fp="${k}"${i ? " hidden" : ""}><div class="fp-hotel"><div class="ph">${img(c.hp[0], { alt: `${c.hotel}, ${c.name}`, sizes: "(max-width:1024px) 100vw, 40vw" })}</div><div class="hb"><h2 style="color:#fff;font-size:1.45rem">${c.hotel}</h2><div class="line"><i class="ph-light ph-map-pin-line"></i>${c.addr}</div><div class="line"><i class="ph-light ph-bed"></i>${c.room}, ${c.board.toLowerCase()}. ${c.bed}.</div><div class="line"><i class="ph-light ph-arrow-right"></i><a href="/italy/${k}">${c.name} packages and guide</a></div></div></div><div class="fp-tiles">${c.tiles.map(t => `<div class="fp-tile"><span class="ti"><i class="ph-light ${t[0]}"></i></span><h3 style="font-size:1.05rem">${t[1]}</h3><p>${t[2]}</p></div>`).join("")}</div></div>`; }).join("")}</div>
-  </div></section>
-  <section class="sec" style="padding-top:0"><div class="wrap article" style="padding-top:0">
-    <div class="prose">
-      <h2 id="tax">City tax rates 2026</h2>
-      <p>Paid per person, per night, directly to the hotel. Never included in a package price.</p>
-      <div class="table-wrap"><table><thead><tr><th>City</th><th>3-star</th><th>4-star</th><th>5-star</th><th>Max nights</th><th>Children exempt</th></tr></thead><tbody><tr><td>Rome</td><td>€6.00</td><td>€7.50</td><td>€10.00</td><td>10</td><td>Under 10</td></tr><tr><td>Florence</td><td>€6.00</td><td>€7.00</td><td>€8.00</td><td>7</td><td>Under 12</td></tr><tr><td>Venice (historic centre)</td><td>€3.50</td><td>€4.50</td><td>€5.00</td><td>5</td><td>Under 10; 10 to 16 half</td></tr><tr><td>Milan (Apr to Dec 2026)</td><td>€7.00</td><td>€10.00</td><td>€12.00</td><td>14</td><td>Under 18</td></tr></tbody></table></div>
-      <p>Full tables, exemptions and the Venice access fee are in the <a href="/guides/italy-tourist-tax-2026">Italy tourist tax guide</a>.</p>
-      <h2 id="common">Rules that apply at every hotel</h2>
-      <ul><li><strong>ID for everyone.</strong> Italian law requires hotels to register every guest, including children, with the police. Bring a passport or government photo ID for each traveller and expect an in-person check at the desk.</li><li><strong>No-shows and same-day cancellations</strong> are charged 100% of the stay.</li><li><strong>Bed types</strong> are requested, never guaranteed. We pass your preference on at booking and again a few days before arrival.</li><li><strong>Extras</strong> such as minibar, parking, late check-out and room upgrades are paid at the hotel.</li><li><strong>Problems</strong> should be raised with the hotel immediately and then with us on WhatsApp. Issues reported after the stay are much harder to resolve.</li></ul>
-      <h2 id="ours">Preplan's own fees</h2>
-      <p>There are none beyond the package price. Optional add-ons are priced on each package page: airport pickup $38 per person, travel insurance $24 per person, high-speed train tickets $45 per person per leg, room upgrade on request about $40 per room per night. Card payments carry no surcharge.</p>
-    </div>
-    <aside class="side"><div class="side-card"><h3>Related</h3><ul><li><a href="/terms"><i class="ph-light ph-arrow-right"></i>Terms of booking</a></li><li><a href="/faq"><i class="ph-light ph-arrow-right"></i>Frequently asked questions</a></li><li><a href="/guides/venice-access-fee-2026"><i class="ph-light ph-arrow-right"></i>Venice access fee 2026</a></li><li><a href="/how-it-works"><i class="ph-light ph-arrow-right"></i>How booking works</a></li></ul></div>
-    <div class="side-card dark"><h3>Unsure about a rule?</h3><p>Ask before you book. We answer on WhatsApp within the hour during opening times.</p><a class="btn btn-gold btn-sm" href="${wa("Hi Preplan, I have a question about hotel policies.")}" target="_blank" rel="noopener">Ask on WhatsApp<span class="ico"><i class="ph-light ph-whatsapp-logo"></i></span></a></div></aside>
-  </div></section>`;
-  return H.page({ path: "/fees-and-policies", title: `City Taxes and Hotel Policies, Hotel by Hotel | ${cfg.name}`, desc: "The 2026 city tax at each of our four Italian hotels, deposits, cot charges, breakfast rules, ID requirements and cancellation terms, in plain English.", ogImage: H.abs("/images/og/fees.jpg"), active: "about", guides, body, ld: [bc(crumbs)], scripts: scripts() });
-}
-
 /* ---------------- legal ---------------- */
 function legal(kind, { guides }) {
   const isTerms = kind === "terms";
@@ -220,4 +129,4 @@ function notFound({ guides }) {
   return H.page({ path: "/404", title: `Page not found | ${cfg.name}`, desc: "The page you were looking for could not be found.", noindex: true, active: "", guides, body, scripts: scripts() });
 }
 
-module.exports = { about, howItWorks, reviews, faq, contact, fees, legal, notFound };
+module.exports = { about, contact, legal, notFound };

@@ -14,13 +14,43 @@
       "permanent": true
     },
     {
-      "source": "/destinations/italy",
-      "destination": "/italy",
+      "source": "/italy/:path*",
+      "destination": "/packages",
       "permanent": true
     },
     {
-      "source": "/destinations/cruises",
-      "destination": "/cruises",
+      "source": "/destinations/:path*",
+      "destination": "/packages",
+      "permanent": true
+    },
+    {
+      "source": "/cruises",
+      "destination": "/packages",
+      "permanent": true
+    },
+    {
+      "source": "/guides/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/faq",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/reviews",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/how-it-works",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/fees-and-policies",
+      "destination": "/terms",
       "permanent": true
     }
   ],

@@ -7,15 +7,12 @@ const path = require("path");
 const cfg = require("./config");
 const D = require("./data");
 const H = require("./html");
-const GUIDES = require("./content/guides");
 const home = require("./pages/home");
 const packages = require("./pages/packages");
-const dest = require("./pages/destinations");
-const guides = require("./pages/guides");
 const stat = require("./pages/static");
 
 const ROOT = path.resolve(__dirname, "..");
-const ctx = { guides: GUIDES };
+const ctx = { guides: [] };
 const out = [];           // {path, file, lastmod, images[]}
 const og = [];            // {out, photo, title, kicker}
 
@@ -30,7 +27,8 @@ const TODAY = new Date().toISOString().slice(0, 10);
 const ogItem = (outFile, photo, title, kicker) => og.push({ out: outFile, photo: H.photoUrl(photo, 1600), title, kicker });
 
 /* ---------- clean previous output ---------- */
-for (const d of ["packages", "italy", "destinations", "guides"]) fs.rmSync(path.join(ROOT, d), { recursive: true, force: true });
+// italy/destinations/guides/cruises are pages the site no longer has; removing them keeps old output from being deployed.
+for (const d of ["packages", "italy", "destinations", "guides", "cruises"]) fs.rmSync(path.join(ROOT, d), { recursive: true, force: true });
 for (const f of fs.readdirSync(ROOT)) if (/\.html$/.test(f) && f !== "index.html") fs.rmSync(path.join(ROOT, f));
 
 /* ---------- CSS bundle ---------- */
@@ -50,37 +48,8 @@ for (const p of D.P) {
   ogItem(`packages/${p.s}.jpg`, p.im, p.t, p.w ? `${p.dur} · from ${H.priceTxt(p)}` : `${p.nights} nights · from ${H.priceTxt(p)} pp`);
 }
 
-write("/destinations", dest.index(ctx), { dir: true });
-ogItem("destinations.jpg", "photo-1533105079780-92b9be482077", "Where we can take you", "Destinations");
-write("/italy", dest.italy(ctx), { dir: true });
-ogItem("italy.jpg", "photo-1552832230-c0197dd311b5", "Italy vacation packages: Rome, Florence, Venice and Milan", "Italy");
-write("/italy/multi-city", dest.multiCity(ctx));
-ogItem("italy-multi-city.jpg", "photo-1531572753322-ad063cecc140", "Italy multi-city vacation packages by train", "Italy");
-for (const k of Object.keys(D.C)) {
-  write(`/italy/${k}`, dest.city(k, ctx));
-  ogItem(`italy-${k}.jpg`, D.C[k].imgs[0], `${D.C[k].name} vacation packages with hotel and breakfast`, D.C[k].area);
-}
-for (const k of ["europe", "middleeast", "asia", "caribbean", "americas"]) {
-  write(`/destinations/${D.RG_SLUG[k]}`, dest.region(k, ctx));
-  ogItem(`region-${D.RG_SLUG[k]}.jpg`, D.P.find(p => p.region === k).im, `${D.RG[k]} vacation packages with flights`, D.RG[k]);
-}
-write("/cruises", dest.region("cruises", ctx), { dir: true });
-ogItem("region-cruises.jpg", D.P.find(p => p.region === "cruises").im, "Cruise packages: Mediterranean, Adriatic and Alaska", "Cruises");
-
-write("/guides", guides.index(ctx), { dir: true });
-ogItem("guides.jpg", "photo-1516186366443-0744a82bffef", "Italy travel guides from the planners who book it", "Guides");
-fs.mkdirSync(path.join(ROOT, "images/og/guides"), { recursive: true });
-for (const g of GUIDES) {
-  write(`/guides/${g.slug}`, guides.article(g, ctx), { lastmod: g.modified.slice(0, 10) });
-  ogItem(`guides/${g.slug}.jpg`, g.photo, g.title, g.kicker);
-}
-
 write("/about", stat.about(ctx)); ogItem("about.jpg", "images/hotels/venice-hotel-monaco-grand-canal-terrace.jpg", "A small team that books Italy the way we'd book it for ourselves", "About");
-write("/how-it-works", stat.howItWorks(ctx)); ogItem("how-it-works.jpg", "photo-1541370976299-4d24ebbc9077", "From one message to boarding pass, in five steps", "How it works");
-write("/reviews", stat.reviews(ctx)); ogItem("reviews.jpg", "photo-1523906834658-6e24ef2386f9", "What travellers say after the trip", "Reviews");
-write("/faq", stat.faq(ctx)); ogItem("faq.jpg", "photo-1605200723310-5df264c13e22", "Questions people ask before they book", "FAQ");
 write("/contact", stat.contact(ctx)); ogItem("contact.jpg", "photo-1513581166391-887a96ddeafd", "Tell us where you want to wake up", "Contact");
-write("/fees-and-policies", stat.fees(ctx)); ogItem("fees.jpg", "images/hotels/rome-trevi-collection-hotel-lounge.jpg", "City taxes and hotel policies, hotel by hotel", "Fees and policies");
 write("/terms", stat.legal("terms", ctx));
 write("/privacy", stat.legal("privacy", ctx));
 write("/404", stat.notFound(ctx), { noindex: true });
@@ -108,8 +77,15 @@ fs.writeFileSync(path.join(ROOT, "vercel.json"), JSON.stringify({
   redirects: [
     { source: "/index.html", destination: "/", permanent: true },
     { source: "/package/:slug", destination: "/packages/:slug", permanent: true },
-    { source: "/destinations/italy", destination: "/italy", permanent: true },
-    { source: "/destinations/cruises", destination: "/cruises", permanent: true }
+    // Pages from the larger version of the site. Permanent redirects pass their search value to the closest remaining page.
+    { source: "/italy/:path*", destination: "/packages", permanent: true },
+    { source: "/destinations/:path*", destination: "/packages", permanent: true },
+    { source: "/cruises", destination: "/packages", permanent: true },
+    { source: "/guides/:path*", destination: "/", permanent: true },
+    { source: "/faq", destination: "/", permanent: true },
+    { source: "/reviews", destination: "/", permanent: true },
+    { source: "/how-it-works", destination: "/", permanent: true },
+    { source: "/fees-and-policies", destination: "/terms", permanent: true }
   ],
   headers: [
     { source: "/assets/(.*)", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },

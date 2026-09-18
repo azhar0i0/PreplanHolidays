@@ -120,8 +120,7 @@ ${wrapLd(orgLd(), websiteLd(), ...ld)}
 const NAV = [
   ["/", "Home", "home"],
   ["/packages", "Packages", "packages"],
-  ["/destinations", "Destinations", "destinations"],
-  ["/guides", "Guides", "guides"],
+
   ["/about", "About", "about"],
   ["/contact", "Contact", "contact"]
 ];
@@ -165,9 +164,10 @@ function nav(active) {
 }
 
 function footer(guides) {
-  const cities = Object.values(D.C).map(c => `<li><a href="/italy/${c.slug}">${c.name} vacation packages</a></li>`).join("");
-  const regions = ["europe", "middleeast", "asia", "caribbean", "americas"].map(k => `<li><a href="/destinations/${D.RG_SLUG[k]}">${D.RG[k]}</a></li>`).join("");
-  const g = (guides || []).slice(0, 5).map(x => `<li><a href="/guides/${x.slug}">${esc(x.short || x.title)}</a></li>`).join("");
+  // Footer links go straight to package pages: one per Italian city plus the classic three-city trip, then one trip per worldwide region.
+  const italy = [...Object.keys(D.C).map(k => D.P.find(p => !p.w && p.c.length === 1 && p.c[0] === k)), D.bySlug["italy-big-three"]].filter(Boolean);
+  const world = D.P.filter(p => p.w).filter((p, i, a) => a.findIndex(x => x.region === p.region) === i).slice(0, 6);
+  const li = p => `<li><a href="${pkgUrl(p)}">${esc(p.t)}</a></li>`;
   const soc = Object.entries(cfg.social).map(([k, u]) => `<a href="${u}" target="_blank" rel="noopener me" aria-label="${k[0].toUpperCase() + k.slice(1)}"><i class="ph-light ph-${k}-logo"></i></a>`).join("");
   return `<footer class="foot">
   <div class="wrap">
@@ -181,10 +181,10 @@ function footer(guides) {
         <p class="foot-about">Italian city breaks with central hotels, breakfast and every local fee explained before you pay. Flight-inclusive holidays and cruises worldwide.</p>
         <form class="news" id="news" action="/contact" method="get"><input type="email" name="email" placeholder="Get trip ideas by email" aria-label="Email address" required><button type="submit">Subscribe</button></form>
       </div>
-      <div class="rv" style="--d:80"><h4>Italy</h4><ul><li><a href="/italy">Italy vacation packages</a></li>${cities}<li><a href="/italy/multi-city">Multi-city trips by train</a></li><li><a href="/fees-and-policies">City taxes and hotel policies</a></li></ul></div>
-      <div class="rv" style="--d:160"><h4>Worldwide</h4><ul><li><a href="/packages">All packages</a></li>${regions}<li><a href="/cruises">Cruises</a></li></ul></div>
+      <div class="rv" style="--d:80"><h4>Italy</h4><ul>${italy.map(li).join("")}</ul></div>
+      <div class="rv" style="--d:160"><h4>Worldwide</h4><ul>${world.map(li).join("")}<li><a href="/packages">All packages</a></li></ul></div>
       <div class="rv" style="--d:240"><h4>Company</h4><ul>
-        <li><a href="/about">About us</a></li><li><a href="/how-it-works">How it works</a></li><li><a href="/reviews">Reviews</a></li><li><a href="/guides">Travel guides</a></li><li><a href="/faq">FAQ</a></li><li><a href="/contact">Contact</a></li><li><a href="/terms">Terms of booking</a></li><li><a href="/privacy">Privacy policy</a></li>
+        <li><a href="/about">About us</a></li><li><a href="/contact">Contact</a></li><li><a href="/terms">Terms of booking</a></li><li><a href="/privacy">Privacy policy</a></li>
       </ul></div>
     </div>
   </div>
