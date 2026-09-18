@@ -33,6 +33,9 @@
 html{-webkit-text-size-adjust:100%;scroll-behavior:auto}
 body{margin:0;font-family:var(--f-body);font-size:16px;line-height:1.65;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 @supports (overflow:clip){html,body{overflow-x:clip}}
+/* hide scrollbars everywhere, scrolling still works */
+*{scrollbar-width:none;-ms-overflow-style:none}
+*::-webkit-scrollbar{display:none;width:0;height:0}
 body.lock{overflow:hidden}
 img{max-width:100%;display:block;color:transparent}
 a{color:inherit;text-decoration:none}
@@ -208,7 +211,7 @@ p{margin:0}
 .pop.up{top:auto;bottom:calc(100% + 10px);transform-origin:bottom left}
 .pop.end{left:auto;right:0;transform-origin:top right}
 .pop.up.end{transform-origin:bottom right}
-.dd-list{max-height:290px;overflow:auto;display:grid;gap:2px;scrollbar-width:thin}
+.dd-list{max-height:290px;overflow:auto;display:grid;gap:2px}
 .dd-opt{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;text-align:left;font-weight:500;font-size:.94rem;transition:background-color .25s;opacity:0;transform:translateY(6px)}
 .open .dd-opt,.sheet-open .dd-opt{opacity:1;transform:none;transition:background-color .25s,opacity .4s var(--ease),transform .5s var(--ease);transition-delay:0s,calc(var(--i)*28ms),calc(var(--i)*28ms)}
 .dd-opt:hover,.dd-opt.kb{background:var(--bg)}
@@ -329,10 +332,10 @@ p{margin:0}
 .price small{display:block;font-size:.72rem;color:var(--ink-3);font-weight:500;line-height:1.2}
 .price b{font-family:var(--f-head);font-weight:600;font-size:1.28rem;letter-spacing:-.02em;line-height:1.15}
 .price b span{font-size:.75rem;font-family:var(--f-body);color:var(--ink-3);font-weight:500;letter-spacing:0}
-.go-arrow{width:42px;height:42px;border-radius:50%;background:var(--mist);display:grid;place-items:center;font-size:1.1rem;flex:none;transition:transform .6s var(--spring),background-color .4s,color .4s}
-.go-arrow i{transform:rotate(-45deg);transition:transform .6s var(--spring)}
-.card:hover .go-arrow{background:var(--school-bus-yellow);transform:scale(1.08)}
-.card:hover .go-arrow i{transform:rotate(0)}
+.go-cta{margin-top:12px;height:46px;padding:0 6px 0 18px;border-radius:99px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.88rem;font-weight:600;letter-spacing:-.01em;box-shadow:0 10px 20px -14px rgba(6,131,127,.95);transition:background-color .45s var(--ease),color .45s var(--ease),box-shadow .5s var(--ease)}
+.go-cta i{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:1rem;flex:none;transition:transform .6s var(--spring),background-color .45s var(--ease)}
+.card:hover .go-cta,.card:focus-visible .go-cta{background:var(--school-bus-yellow);color:var(--ink);box-shadow:0 14px 24px -14px rgba(253,193,0,.95)}
+.card:hover .go-cta i,.card:focus-visible .go-cta i{background:rgba(7,36,35,.14);transform:translateX(4px)}
 .card.hide{display:none}
 .card.pop-in{animation:popin .8s var(--ease) both;animation-delay:calc(var(--i,0)*60ms)}
 @keyframes popin{from{opacity:0;transform:translateY(24px) scale(.97)}}
@@ -628,6 +631,9 @@ p{margin:0}
 .hotel h3{font-size:1.12rem}
 .hotel .row{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;color:var(--ink-2)}
 .hotel .row i{color:var(--teal);font-size:1.05rem;margin-top:3px}
+.wstops{display:flex;flex-wrap:wrap;align-items:center;gap:10px 8px}
+.wstops span{display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:99px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);font-weight:600;font-size:.92rem}
+.wstops i{color:var(--ink-3);font-size:.95rem}
 .hotel .pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
 .hotel .pills span{font-size:.76rem;font-weight:600;padding:5px 10px;border-radius:99px;background:var(--aqua-soft);color:var(--teal)}
 .inc{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -791,7 +797,8 @@ img.fb-hide{opacity:0}
   .card-img .fav{width:30px;height:30px;right:7px;top:7px}
   .price b{font-size:1.02rem}
   .price small{font-size:.64rem}
-  .go-arrow{width:32px;height:32px;font-size:.9rem}
+  .go-cta{height:38px;padding:0 5px 0 12px;font-size:.78rem;gap:6px;margin-top:10px}
+  .go-cta i{width:28px;height:28px;font-size:.85rem}
   .card-foot{padding-top:9px}
   .pk-head{margin-bottom:22px}
   .chore{padding:14px 16px}
@@ -888,7 +895,7 @@ img.fb-hide{opacity:0}
 <section class="view" id="v-home">
 
   <section class="hero" id="top">
-    <div class="hero-media"><img src="https://images.unsplash.com/photo-1514890547357-a9ee288728e0?auto=format&fit=crop&w=2000&q=75" alt="Gondolas moored on a Venice canal at golden hour" fetchpriority="high"></div>
+    <div class="hero-media"><img src="https://images.unsplash.com/photo-1514890547357-a9ee288728e0?auto=format&fit=crop&w=2000&q=75" alt="The Grand Canal in Venice at dusk, with the dome of Santa Maria della Salute" fetchpriority="high"></div>
     <div class="wrap hero-body">
       <div class="hero-grid">
         <div>
@@ -947,7 +954,7 @@ img.fb-hide{opacity:0}
       </div>
       <div class="bento">
         <div class="bz b1 rv scale">
-          <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=75" alt="The Colosseum in Rome under a blue sky" loading="lazy">
+          <img src="images/hotels/venice-hotel-monaco-grand-canal-terrace.jpg" alt="Terrace restaurant at Hotel Monaco &amp; Grand Canal, looking across to Santa Maria della Salute" loading="lazy">
           <div class="cap"><i class="ph-light ph-buildings"></i><div><b>Four hotels we know well</b><span>Steps from Trevi, the Grand Canal, Santa Maria Novella and Garibaldi</span></div></div>
         </div>
         <div class="bz b2 rv" style="--d:100">
@@ -958,7 +965,7 @@ img.fb-hide{opacity:0}
             <div><i class="ph-light ph-check-circle"></i>Local fees listed before you pay</div>
           </div>
         </div>
-        <div class="bz b3 rv" style="--d:180"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=800&q=75" alt="Colourful buildings along a canal in Venice" loading="lazy"></div>
+        <div class="bz b3 rv" style="--d:180"><img src="images/hotels/rome-trevi-collection-hotel-terrace.jpg" alt="Private terrace at Trevi Collection Hotel, Rome" loading="lazy"></div>
         <div class="bz b4 rv" style="--d:240"><div class="num" data-count="12">0</div><p>ready-to-book packages across four cities</p></div>
         <div class="bz b5 rv" style="--d:300"><div class="big"><i class="ph-light ph-headset"></i></div><div><b>24/7 help while you travel</b><span>If something at the hotel is not right, message us and we chase it.</span></div></div>
       </div>
@@ -978,6 +985,8 @@ img.fb-hide{opacity:0}
           <button class="chip-b on" data-f="all">All trips</button>
           <button class="chip-b" data-f="single">One city</button>
           <button class="chip-b" data-f="multi">Multi-city</button>
+          <button class="chip-b" data-f="world">Worldwide</button>
+          <button class="chip-b" data-f="cruise">Cruises</button>
         </div>
       </div>
       <div class="grid4" id="homeGrid"></div>
@@ -1186,7 +1195,7 @@ img.fb-hide{opacity:0}
   <div class="wrap">
     <div class="toolbar rv" style="--d:350">
       <div class="toolbar-in">
-        <div class="box sbox"><i class="ph-light ph-magnifying-glass"></i><input id="aQ" type="search" placeholder="Search by city or hotel" aria-label="Search packages"></div>
+        <div class="box sbox"><i class="ph-light ph-magnifying-glass"></i><input id="aQ" type="search" placeholder="Search by place, country or hotel" aria-label="Search packages"></div>
         <div class="dd" id="aCity"></div>
         <div class="dd" id="aLen"></div>
         <div class="dd" id="aSort"></div>
@@ -1279,7 +1288,7 @@ img.fb-hide{opacity:0}
 (()=>{
 "use strict";
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const IMG=(id,w=1200)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=75`;
+const IMG=(id,w=1200)=>id.startsWith("images/")?id:`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=75`;
 const money=n=>"$"+Math.round(n).toLocaleString("en-US");
 const mobile=()=>window.matchMedia("(max-width:767px)").matches;
 const WA="12125550147";
@@ -1293,46 +1302,104 @@ document.addEventListener("error",e=>{
 
 /* ================= DATA (from the hotel vouchers) ================= */
 const C={
-  rome:{name:"Rome",nights:3,price:489,imgs:["photo-1552832230-c0197dd311b5","photo-1531572753322-ad063cecc140"],
+  rome:{name:"Rome",nights:3,price:489,imgs:["photo-1605200723310-5df264c13e22","photo-1663143146856-683650ffee76"],ia:["The Pantheon","The Spanish Steps"],hp:["images/hotels/rome-trevi-collection-hotel-room.jpg","images/hotels/rome-trevi-collection-hotel-terrace.jpg","images/hotels/rome-trevi-collection-hotel-lounge.jpg"],gal:["images/hotels/rome-trevi-collection-hotel-terrace.jpg","photo-1605200723310-5df264c13e22","photo-1663143146856-683650ffee76"],
     hotel:"Trevi Collection Hotel",addr:"Via Capo le Case 60, 00187 Rome, Italy",phone:"+39 06 7984 4142",room:"Standard Quadruple Room",board:"Breakfast",bed:"Double bed requested",area:"Near the Trevi Fountain",
     perks:["Breakfast daily","Sleeps up to 4","Baby cot available"],
     tiles:[["ph-coins","City tax","Tourist city tax is not in the price. If it applies, you pay it on the spot at the hotel."],["ph-credit-card","Deposit","The hotel may ask for a cash or card deposit as a guarantee. It comes back at departure, minus any charges."],["ph-baby","Travelling with a baby","A cot for children aged 0 to 2 costs 16 euros per night, paid at the hotel."],["ph-users-three","Groups","Five or more rooms on the same dates count as a group. The hotel confirms these separately, at its own rates."]],
     days:[["Colosseum and the Roman Forum","Start early at the Colosseum, then walk the Forum and Palatine Hill. Evening coin toss at Trevi, a few minutes from the hotel."],["Vatican Museums and St Peter's","Book a morning slot for the Sistine Chapel, then cross to St Peter's Basilica. Dinner in Trastevere."]]},
-  florence:{name:"Florence",nights:2,price:365,imgs:["photo-1534445867742-43195f401b6c","photo-1543429258-c5ca3e2d5f5b"],
+  florence:{name:"Florence",nights:2,price:365,imgs:["photo-1748191024180-53a4890c96e4","photo-1651536146537-a52d68e337bc"],ia:["Florence from Piazzale Michelangelo","The Neptune Fountain in Piazza della Signoria"],hp:["images/hotels/florence-grand-hotel-adriatico-room.jpg","images/hotels/florence-grand-hotel-adriatico-balcony.jpg"],gal:["images/hotels/florence-grand-hotel-adriatico-balcony.jpg","photo-1748191024180-53a4890c96e4","photo-1651536146537-a52d68e337bc"],
     hotel:"Grand Hotel Adriatico",addr:"Via Maso Finiguerra 9, 50123 Florence, Italy",phone:"+39 055 27931",room:"Comfort Room",board:"Breakfast",bed:"Double bed requested",area:"Near Santa Maria Novella",
     perks:["Breakfast daily","24-hour front desk","Walk to the Duomo"],
     tiles:[["ph-coins","City tax","Local city tax and any resort fee are not in the rate. You pay them directly to the hotel."],["ph-moon-stars","Late arrival","The front desk is open 24 hours, so a late train or flight is not a problem."],["ph-bed","Bed type","A double bed is requested for you. The hotel does its best, but bedding is not guaranteed."],["ph-prohibit","No-show","Same-day cancellations and no-shows are charged 100% of the stay."]],
     days:[["Duomo, Baptistery and the Uffizi","Climb Brunelleschi's dome in the morning, then spend the afternoon with Botticelli at the Uffizi. Sunset from Piazzale Michelangelo."]]},
-  venice:{name:"Venice",nights:2,price:612,imgs:["photo-1523906834658-6e24ef2386f9","photo-1514890547357-a9ee288728e0"],
+  venice:{name:"Venice",nights:2,price:612,imgs:["photo-1681759180062-11a4e7a18d9b","photo-1514890547357-a9ee288728e0"],ia:["The St Mark's bell tower","The Grand Canal and Santa Maria della Salute"],hp:["images/hotels/venice-hotel-monaco-grand-canal-exterior.jpg","images/hotels/venice-hotel-monaco-grand-canal-room.jpg","images/hotels/venice-hotel-monaco-grand-canal-terrace.jpg"],gal:["images/hotels/venice-hotel-monaco-grand-canal-room.jpg","photo-1681759180062-11a4e7a18d9b","photo-1514890547357-a9ee288728e0"],
     hotel:"Hotel Monaco & Grand Canal",addr:"Calle Vallaresso, San Marco 1332, 30124 Venice, Italy",phone:"+39 041 520 0211",room:"Standard Room",board:"Breakfast",bed:"Bed preference passed on",area:"On the Grand Canal by St Mark's",
     perks:["Breakfast daily","Grand Canal location","Steps from St Mark's"],
     tiles:[["ph-coins","City tax","Set by star rating and season, up to 5 euros per person per night from February to December, less in January. Charged for 6 nights at most."],["ph-baby","Children","Under 10s pay no city tax. Ages 11 to 16 pay half."],["ph-calendar-x","Dates are fixed","Once booked, the check-in date on this stay cannot be changed."],["ph-prohibit","No-show","Same-day cancellations and no-shows are charged 100% of the stay."]],
     days:[["St Mark's Square and the Grand Canal","Basilica and Doge's Palace in the morning, then ride vaporetto line 1 the full length of the Grand Canal. Spritz by the water."]]},
-  milan:{name:"Milan",nights:2,price:298,imgs:["photo-1520440229-6469a149ac59","photo-1513581166391-887a96ddeafd"],
+  milan:{name:"Milan",nights:2,price:298,imgs:["photo-1513581166391-887a96ddeafd","photo-1518797814703-ed31ee241ef8"],ia:["The Navigli canals at dusk","Inside the Galleria Vittorio Emanuele II"],hp:["images/hotels/milan-holiday-inn-garibaldi-station-exterior.jpg","images/hotels/milan-holiday-inn-garibaldi-station-lobby.jpg"],gal:["photo-1513581166391-887a96ddeafd","photo-1518797814703-ed31ee241ef8"],
     hotel:"Holiday Inn Milan Garibaldi Station",addr:"Via Ugo Bassi 1/a, 20159 Milan, Italy",phone:"+39 02 607 6801",room:"Double Standard Room",board:"Breakfast for 2",bed:"Twin beds requested",area:"By Garibaldi Station",
     perks:["Breakfast for 2","Connecting rooms","LGBTQ+ friendly"],
     tiles:[["ph-coins","City tax","10 euros per person, per night, paid at the hotel. Guests under 18 are exempt."],["ph-identification-card","At check-in","Every guest, children included, shows a government photo ID or passport."],["ph-coffee","Breakfast","Covers up to 2 adults sharing a room. Extra guests pay for breakfast at the hotel."],["ph-wallet","Paying locally","Cashless payment works for everything. Cash payments are capped at 5,000 euros by Italian law."]],
     days:[["Duomo rooftop and the Galleria","Take the lift to the cathedral terraces, browse Galleria Vittorio Emanuele II, then aperitivo along the Navigli canals."]]}
 };
-const P=[
-  {s:"rome-trevi-three-nights",t:"Three nights by the Trevi Fountain",c:["rome"],b:"A central Rome base for the Colosseum, the Vatican and late walks past the fountain. The quadruple room suits families and friends sharing."},
-  {s:"venice-grand-canal",t:"Venice on the Grand Canal",c:["venice"],b:"Two nights at a canal-front hotel a short walk from St Mark's Square, with breakfast and the city tax rules spelled out."},
-  {s:"rome-and-florence",t:"Rome and Florence classics",c:["rome","florence"],b:"Ancient Rome, then Renaissance Florence by fast train. Five nights, two central hotels, breakfast every morning."},
-  {s:"florence-weekend",t:"A Florence weekend near Santa Maria Novella",c:["florence"],b:"Two nights near the station with a 24-hour front desk, ideal for a short Renaissance break or a stop between cities."},
-  {s:"italy-big-three",t:"Italy's big three: Rome, Florence, Venice",c:["rome","florence","venice"],b:"The route most people dream about, planned as one trip. Seven nights across three hand-checked hotels."},
-  {s:"milan-garibaldi-break",t:"Milan city break at Garibaldi",c:["milan"],b:"Two nights by Garibaldi Station with breakfast for two, easy links to the Duomo, Brera and Malpensa trains."},
-  {s:"milan-and-venice",t:"Milan and Venice by rail",c:["milan","venice"],b:"Design city to lagoon city in under three hours by train. Four nights, two hotels, one clear price."},
-  {s:"florence-and-venice",t:"Florence to the lagoon",c:["florence","venice"],b:"Uffizi mornings and Grand Canal evenings. Four nights linking two of Italy's most photographed cities."},
-  {s:"rome-and-venice",t:"Rome and Venice highlights",c:["rome","venice"],b:"Start with three nights in Rome, finish with two on the Grand Canal. The best of both ends of the rail line."},
-  {s:"grand-italian-four",t:"The grand Italian four",c:["milan","venice","florence","rome"],b:"Nine nights, four cities, four hotels, all prepaid. Arrive in Milan, leave from Rome, breakfast every day in between."},
-  {s:"milan-and-florence",t:"Milan and Florence, style and art",c:["milan","florence"],b:"Fashion district and fresco ceilings in one four-night trip, connected by a two-hour fast train."},
-  {s:"northern-italy-circuit",t:"Northern Italy circuit",c:["milan","venice","florence"],b:"Six nights through the north: Milan, Venice and Florence, with every city tax listed before you pay."}
+const PI=[
+  {s:"rome-trevi-three-nights",im:"photo-1525874684015-58379d421a52",t:"Three nights by the Trevi Fountain",c:["rome"],b:"A central Rome base for the Colosseum, the Vatican and late walks past the fountain. The quadruple room suits families and friends sharing."},
+  {s:"venice-grand-canal",im:"photo-1523906834658-6e24ef2386f9",t:"Venice on the Grand Canal",c:["venice"],b:"Two nights at a canal-front hotel a short walk from St Mark's Square, with breakfast and the city tax rules spelled out."},
+  {s:"rome-and-florence",im:"photo-1552832230-c0197dd311b5",t:"Rome and Florence classics",c:["rome","florence"],b:"Ancient Rome, then Renaissance Florence by fast train. Five nights, two central hotels, breakfast every morning."},
+  {s:"florence-weekend",im:"photo-1541370976299-4d24ebbc9077",t:"A Florence weekend near Santa Maria Novella",c:["florence"],b:"Two nights near the station with a 24-hour front desk, ideal for a short Renaissance break or a stop between cities."},
+  {s:"italy-big-three",im:"photo-1575379972263-2f15a5c78236",t:"Italy's big three: Rome, Florence, Venice",c:["rome","florence","venice"],b:"The route most people dream about, planned as one trip. Seven nights across three hand-checked hotels."},
+  {s:"milan-garibaldi-break",im:"photo-1690489964962-dcaaf37b22c0",t:"Milan city break at Garibaldi",c:["milan"],b:"Two nights by Garibaldi Station with breakfast for two, easy links to the Duomo, Brera and Malpensa trains."},
+  {s:"milan-and-venice",im:"photo-1546441758-a678df1d3138",t:"Milan and Venice by rail",c:["milan","venice"],b:"Design city to lagoon city in under three hours by train. Four nights, two hotels, one clear price."},
+  {s:"florence-and-venice",im:"photo-1516186366443-0744a82bffef",t:"Florence to the lagoon",c:["florence","venice"],b:"Uffizi mornings and Grand Canal evenings. Four nights linking two of Italy's most photographed cities."},
+  {s:"rome-and-venice",im:"photo-1610655769765-be8a0dd9627a",t:"Rome and Venice highlights",c:["rome","venice"],b:"Start with three nights in Rome, finish with two on the Grand Canal. The best of both ends of the rail line."},
+  {s:"grand-italian-four",im:"photo-1520440229-6469a149ac59",t:"The grand Italian four",c:["milan","venice","florence","rome"],b:"Nine nights, four cities, four hotels, all prepaid. Arrive in Milan, leave from Rome, breakfast every day in between."},
+  {s:"milan-and-florence",im:"photo-1557826807-be1444a653d9",t:"Milan and Florence, style and art",c:["milan","florence"],b:"Fashion district and fresco ceilings in one four-night trip, connected by a two-hour fast train."},
+  {s:"northern-italy-circuit",im:"photo-1535159994443-5d05daa62298",t:"Northern Italy circuit",c:["milan","venice","florence"],b:"Six nights through the north: Milan, Venice and Florence, with every city tax listed before you pay."}
 ].map((p,i)=>{
   const nights=p.c.reduce((a,k)=>a+C[k].nights,0);
   const full=p.c.reduce((a,k)=>a+C[k].price,0);
   const price=p.c.length>1?Math.round(full*.93):full;
-  return {...p,i,nights,price,full,multi:p.c.length>1,img:IMG(C[p.c[0]].imgs[0],900)};
+  return {...p,i,nights,price,full,multi:p.c.length>1,img:IMG(p.im,900)};
 });
+/* ---------- worldwide packages and cruises ---------- */
+const RG={europe:"Europe",middleeast:"Middle East",asia:"Asia",caribbean:"Caribbean",americas:"Americas",cruises:"Cruises"};
+const W=[
+  {s:"aegean-athens-santorini-mykonos",t:"Aegean island hop: Athens, Santorini and Mykonos",region:"europe",country:"Greece",im:"photo-1533105079780-92b9be482077",dur:"8 nights",nights:8,price:2990,route:"Athens · Santorini · Mykonos",tags:["plane","hotel","ship","tour"],
+    b:"Start with the Acropolis in Athens, then take the ferry out to Santorini for caldera sunsets and on to Mykonos for its beaches and windmills. Every ferry and transfer is booked before you fly.",
+    incl:["Return international flights from the USA","3 nights in Athens, 4-star hotel with breakfast","3 nights in Santorini, caldera-view hotel with breakfast","2 nights in Mykonos, boutique hotel with breakfast","Guided tour of the Acropolis and the Acropolis Museum","Santorini island tour with a wine tasting","Mykonos highlights tour","All ferry tickets and port transfers","All airport transfers, with 24/7 support"]},
+  {s:"italy-end-to-end-fast-train",t:"Italy end to end by fast train",region:"europe",country:"Italy",im:"photo-1531572753322-ad063cecc140",badge:"Best seller",dur:"10 nights",nights:10,price:2190,route:"Rome · Florence · Venice · Milan",tags:["plane","hotel","train","tour"],
+    b:"Ten nights across Rome, Florence, Venice and Milan with flights included and every leg on Frecciarossa high-speed trains. Skip-the-line entry at the big sights is already arranged.",
+    incl:["Return international flights from the USA","Rome, 3 nights, with skip-the-line Colosseum and Vatican tours","Florence, 2 nights, with the Accademia Gallery and the Duomo","Venice, 2 nights, with a guided tour of St Mark's and the Doge's Palace","Milan, 2 nights, with the Duomo and the fashion district","All Frecciarossa high-speed train tickets between cities","All airport and hotel-to-station transfers"]},
+  {s:"paris-versailles-normandy",t:"Paris, Versailles and the Normandy coast",region:"europe",country:"France",im:"photo-1499856871958-5b9627545d1a",dur:"7 nights",nights:7,price:1890,route:"Paris · Versailles · Caen",tags:["plane","hotel","train","tour"],
+    b:"Four nights in Paris with a guided day at Versailles, then the train to Caen for three nights within easy reach of the D-Day beaches. Four days are left free to spend as you like.",
+    incl:["Return flights with United Airlines, Newark (EWR) to Paris CDG","4 nights at Pullman Paris La Défense with breakfast","3 nights at Mercure Caen Centre Port de Plaisance with breakfast","Guided day trip to the Palace of Versailles","Airport and train station transfers","Return train tickets, Paris to Caen","4 free days to explore at your own pace"]},
+  {s:"lisbon-porto-algarve",t:"Portugal from Lisbon to the Algarve",region:"europe",country:"Portugal",im:"photo-1555881400-74d7acaacd8b",dur:"9 days",nights:8,price:1890,route:"Lisbon · Porto · Lagos",tags:["plane","hotel","tour","coffee"],
+    b:"Trams and pastéis de nata in Lisbon, port cellars along the Douro in Porto, then down to the Algarve coast for two nights at a spa and beach resort in Lagos.",
+    incl:["Return flights with United Airlines, Raleigh-Durham (RDU) to Lisbon","3 nights in Lisbon at NH Campo Grande with breakfast","2 nights in Porto at Mercure Porto Centro with breakfast","2 nights at Belmar Spa and Beach Resort, Lagos, with breakfast","Algarve jeep safari","All airport and inter-city transfers"]},
+  {s:"jamaica-three-coasts",t:"Jamaica's three coasts in one trip",region:"caribbean",country:"Jamaica",im:"photo-1530225029356-e301a685e6b1",dur:"9 nights",nights:9,price:2490,route:"Montego Bay · Ocho Rios · Negril",tags:["plane","hotel","coffee"],
+    b:"Three nights each in Montego Bay, Ocho Rios and Negril, so you see the island's north and west coasts instead of one resort. Transfers between resorts are included.",
+    incl:["Return international flights from the USA","3 nights at a Montego Bay resort with breakfast","3 nights at an Ocho Rios resort with breakfast","3 nights at a Negril resort with breakfast","All airport and inter-resort transfers","Local excursions available on request"]},
+  {s:"santo-domingo-las-terrenas",t:"Santo Domingo and the Las Terrenas beaches",region:"caribbean",country:"Dominican Republic",im:"photo-1592174887344-02ff9373ca55",dur:"7 nights",nights:7,price:1990,route:"Santo Domingo · Las Terrenas",tags:["plane","hotel","tour","coffee"],
+    b:"Three nights in Santo Domingo's colonial zone, the oldest European-founded city in the Americas, followed by four nights on the beach at Las Terrenas on the Samaná peninsula.",
+    incl:["Return international flights from the USA","3 nights at a Santo Domingo hotel with breakfast","4 nights at a Las Terrenas beach resort with breakfast","All airport and inter-city transfers","Guided tour of Santo Domingo's colonial city"]},
+  {s:"istanbul-cappadocia-antalya",t:"Istanbul, Cappadocia and the Turquoise Coast",region:"middleeast",country:"Turkey",im:"photo-1567797964760-5366be053e70",dur:"7 nights",nights:7,price:1990,route:"Istanbul · Cappadocia · Antalya",tags:["plane","hotel","tour"],
+    b:"Hagia Sophia and the Grand Bazaar in Istanbul, a cave hotel among the balloon-filled valleys of Cappadocia, then the Mediterranean beaches of Antalya.",
+    incl:["Return international flights from the USA","3 nights in Istanbul, 4-star hotel with breakfast","2 nights at a Cappadocia cave hotel with breakfast","2 nights at an Antalya resort with breakfast","Guided Istanbul city tour, including Hagia Sophia and the Grand Bazaar","Cappadocia highlights tour","All airport and inter-city transfers"]},
+  {s:"dubai-abu-dhabi-seven-nights",t:"Dubai and Abu Dhabi, five-star all the way",region:"middleeast",country:"United Arab Emirates",im:"photo-1512453979798-5ea266f8880c",badge:"Most popular",dur:"7 nights",nights:7,price:1990,route:"Dubai · Abu Dhabi",tags:["plane","hotel","tour"],
+    b:"Five nights in Dubai with the Burj Khalifa observation deck and a desert safari, then two nights in Abu Dhabi for the Sheikh Zayed Grand Mosque. Five-star hotels in both cities.",
+    incl:["Return international flights from the USA","5 nights in Dubai, 5-star hotel with breakfast","2 nights in Abu Dhabi, 5-star hotel with breakfast","Dubai city tour, including the Burj Khalifa 124th floor","Desert safari with a barbecue dinner","Abu Dhabi city tour and the Sheikh Zayed Grand Mosque","All airport and inter-city transfers"]},
+  {s:"cairo-nile-valley-of-kings",t:"Cairo, the Nile and the Valley of the Kings",region:"middleeast",country:"Egypt",im:"photo-1539768942893-daf53e448371",dur:"7 nights",nights:7,price:1990,route:"Cairo · Luxor · Nile cruise · Aswan",tags:["plane","hotel","ship","tour"],
+    b:"The Pyramids of Giza and the Sphinx from Cairo, then three nights sailing the Nile from Luxor to Aswan, with the Valley of the Kings and Karnak Temple on the way.",
+    incl:["Return international flights from the USA","2 nights at a Cairo hotel with breakfast","3-night Nile cruise from Luxor to Aswan, with all meals and excursions","2 nights at an Aswan hotel with breakfast","Guided tour of the Giza Pyramids and the Sphinx","Valley of the Kings and Karnak Temple tours","All airport and inter-city transfers"]},
+  {s:"petra-wadi-rum-dead-sea",t:"Petra, Wadi Rum and the Dead Sea",region:"middleeast",country:"Jordan",im:"photo-1548786811-dd6e453ccca7",dur:"7 nights",nights:7,price:1990,route:"Amman · Petra · Wadi Rum · Dead Sea",tags:["plane","hotel","tour"],
+    b:"Walk into Petra through the Siq, spend a night at a Bedouin camp under Wadi Rum's desert sky, then float in the Dead Sea. Amman starts and ends the trip.",
+    incl:["Return international flights from the USA","2 nights at an Amman hotel with breakfast","2 nights at a Petra hotel with breakfast","1 night at a Bedouin desert camp in Wadi Rum","2 nights at a Dead Sea resort with breakfast","Guided tour of Petra: the Treasury, the Monastery and beyond","Wadi Rum jeep safari at sunset"]},
+  {s:"bangkok-phi-phi-phuket",t:"Bangkok temples and the Andaman islands",region:"asia",country:"Thailand",im:"photo-1508009603885-50cf7c579365",dur:"7 nights",nights:7,price:2190,route:"Bangkok · Phi Phi · Phuket",tags:["plane","hotel","tour"],
+    b:"Temples and street food in Bangkok, the limestone cliffs of the Phi Phi Islands, then beach time in Phuket. Island boat trip and city tour included.",
+    incl:["Return international flights from the USA","3 nights in Bangkok, 5-star hotel with breakfast","2 nights at a Phi Phi beach resort","2 nights at a Phuket beach resort with breakfast","Guided Bangkok temples and city tour","Phi Phi Islands boat excursion","All airport and inter-city transfers"]},
+  {s:"kuala-lumpur-borneo-singapore",t:"Kuala Lumpur, Borneo and Singapore",region:"asia",country:"Malaysia and Singapore",im:"photo-1597148543182-830ef7bbb904",dur:"13 days",nights:10,price:0,quote:true,route:"Kuala Lumpur · Kuching · Sarawak · Singapore",tags:["plane","hotel","tour"],
+    b:"The Petronas Towers and Batu Caves in Kuala Lumpur, Borneo's rainforest and culture around Kuching, a beach resort in Sarawak, and three nights on Orchard Road in Singapore.",
+    incl:["Qatar Airways: New York JFK to Kuala Lumpur via Doha, returning from Singapore","3 nights at Pullman KL Residences (5-star) with breakfast","2 nights at Hilton Kuching, Borneo (5-star) with breakfast","2 nights at Damai Beach Resort, Sarawak (4-star)","3 nights at YOTEL Singapore, Orchard Road (4-star)","5 guided tours: KL city, Batu Caves, Kuching, Sarawak Cultural Village and Singapore","All domestic flights and every transfer"]},
+  {s:"china-beijing-to-shanghai",t:"China from Beijing to Shanghai, land only",region:"asia",country:"China",im:"photo-1508804185872-d7badad00f7d",badge:"Land only",dur:"16 days",nights:15,price:1690,route:"Beijing · Xi'an · Yangshuo · Guilin · Shanghai",tags:["hotel","train","tour"],
+    b:"The Great Wall and the Forbidden City, the Terracotta Warriors in Xi'an, a Li River cruise through Guilin's karst hills and the Shanghai Bund. International flights are not included.",
+    incl:["Land-only package: international flights are not included","4 nights in Beijing, 3 in Xi'an, 2 in Yangshuo, 2 in Guilin and 4 in Shanghai","Bullet train from Beijing to Xi'an","Domestic flights: Xi'an to Guilin, and Guilin to Shanghai","7 guided tours throughout","Great Wall, Forbidden City, Terracotta Warriors, Li River cruise, the Bund and more"]},
+  {s:"mexico-city-cancun-tulum",t:"Mexico City, Cancun and Tulum",region:"americas",country:"Mexico",im:"photo-1518638150340-f706e86654de",dur:"11 nights",nights:11,price:2900,route:"Mexico City · Cancun · Tulum",tags:["plane","hotel","tour"],
+    b:"Museums, markets and Teotihuacan in Mexico City, then the Caribbean side: Cancun's beaches, a day at Chichen Itza, a swim in a cenote and the clifftop ruins at Tulum.",
+    incl:["Return international flights from the USA","3 nights in Mexico City, 4-star hotel with breakfast","3 nights at a Cancun resort with breakfast","3 nights at a Tulum boutique hotel with breakfast","2 nights at a Cancun hotel before departure","Guided Mexico City tour and Teotihuacan","Day trip to Chichen Itza from Cancun","Cenote swimming excursion","All airport and inter-city transfers"]},
+  {s:"adriatic-sailing-rome-to-venice",t:"Under sail from Rome to Venice",region:"cruises",country:"Italy, Montenegro and Croatia",ship:"Windstar Wind Spirit",im:"photo-1626699748984-47d6942751ca",badge:"Small ship",dur:"14 nights",nights:14,price:3977,route:"Rome · Naples · Messina · Kotor · Dubrovnik · Hvar · Zadar · Split · Venice",tags:["cruise","tour"],
+    b:"Fourteen nights on a four-masted sailing yacht that carries only 148 guests. It leaves Rome, rounds the south of Italy and works up the Adriatic through Kotor, Dubrovnik and the Dalmatian islands to Venice.",
+    incl:["14 nights aboard Wind Spirit, Windstar Cruises","All meals on board, open seating with no fixed times or tables","Free watersports from the stern platform: kayaking, sailing and water skiing","8 ports: Naples, Messina, Kotor, Dubrovnik, Hvar, Zadar, Split and Venice","Embark in Rome (Civitavecchia), disembark in Venice","All port taxes and fees, with 24/7 support"]},
+  {s:"alaska-inside-passage-glacier-bay",t:"Alaska's Inside Passage and Glacier Bay",region:"cruises",country:"Alaska, USA",ship:"Norwegian Encore",im:"photo-1657682899797-5692d871dd0e",dur:"7 nights",nights:7,price:1009,route:"Seattle · Juneau · Skagway · Glacier Bay · Ketchikan · Victoria",tags:["cruise","tour"],
+    b:"A round trip from Seattle up the Inside Passage to Juneau, Skagway and Glacier Bay National Park, returning via Ketchikan and Victoria in Canada. On board: a go-kart track, a VR pavilion and a Broadway show. This fare is non-refundable.",
+    incl:["7 nights aboard Norwegian Encore, round trip from Seattle","Drinks package offers, dining credits and onboard credit","Shore excursion credit, free soft drinks and free internet","Ports: Juneau, Skagway, Glacier Bay (UNESCO), Ketchikan and Victoria, BC","Encore Speedway, Galaxy Pavilion and the Kinky Boots Broadway show","All port taxes and fees"]},
+  {s:"western-mediterranean-round-trip",t:"Western Mediterranean round trip from Rome",region:"cruises",country:"Italy, Spain and France",ship:"MSC Sinfonia",im:"photo-1578095172812-dcc191c5aed8",dur:"9 nights",nights:9,price:849,route:"Rome · Palermo · Valencia · Barcelona · Marseille · Genoa · Livorno",tags:["cruise","tour"],
+    b:"Nine nights out of Rome and back, calling at Palermo, Valencia, Barcelona, Marseille, Genoa and Livorno for Florence and Pisa, with two full days at sea in between.",
+    incl:["9 nights aboard MSC Sinfonia, round trip from Rome (Civitavecchia)","Drinks offers, free cabin upgrades, free soft drinks and free internet","6 ports: Palermo, Valencia, Barcelona, Marseille, Genoa and Livorno","2 days at sea with full use of the ship","All dining, restaurants and entertainment on board","All port taxes and fees"]}
+].map(p=>({...p,w:1,c:[],multi:p.route.split("·").length>1,full:p.price,img:IMG(p.im,900)}));
+const P=[...PI,...W].map((p,i)=>({...p,i}));
+const pimg=(p,w)=>IMG(p.im,w);
+const priceTxt=p=>p.quote?"On request":money(p.price);
 const SHORT={rome:"Rome by the Trevi Fountain",venice:"Venice on the Grand Canal",florence:"A Renaissance weekend in Florence",milan:"Milan city break at Garibaldi"};
 const bySlug=Object.fromEntries(P.map(p=>[p.s,p]));
 
@@ -1472,14 +1539,18 @@ function Chips(wrap,onChange){
 
 /* ================= CARDS ================= */
 function card(p,i=0,anim=""){
-  const cities=p.c.map(k=>C[k].name).join(", ");
+  const cities=p.w?p.country:p.c.map(k=>C[k].name).join(", ");
+  const alt=p.w?`${p.t}, ${p.country}`:`${C[p.c[0]].name}, ${C[p.c[0]].area}`;
+  const m1=p.w?(p.region==="cruises"?`<span><i class="ph-light ph-boat"></i>${p.ship}</span>`:p.tags.includes("plane")?`<span><i class="ph-light ph-airplane-tilt"></i>Flights included</span>`:`<span><i class="ph-light ph-map-trifold"></i>Land only</span>`):`<span><i class="ph-light ph-coffee"></i>Breakfast</span>`;
+  const m2=p.w?(p.region==="cruises"?"":`<span class="rm"><i class="ph-light ph-globe-hemisphere-east"></i>${RG[p.region]}</span>`):`<span class="rm"><i class="ph-light ph-buildings"></i>${p.c.length} hotel${p.c.length>1?"s":""}</span>`;
   return `<a class="card ${anim}" style="--i:${i};--d:${(i%4)*90}" href="#/package/${p.s}" data-route="/package/${p.s}">
-  <div class="card-in"><div class="card-img"><img src="${p.img}" alt="${C[p.c[0]].name}, ${C[p.c[0]].area}" loading="lazy">
-  <span class="nights"><i class="ph-fill ph-moon-stars"></i>${p.nights} nights</span>
+  <div class="card-in"><div class="card-img"><img src="${p.img}" alt="${alt}" loading="lazy">
+  <span class="nights"><i class="ph-fill ph-moon-stars"></i>${p.dur||p.nights+" nights"}</span>
   <span class="fav ${saved.has(p.s)?"on":""}" role="button" tabindex="0" data-fav="${p.s}" aria-label="Save package"><i class="${saved.has(p.s)?"ph-fill":"ph-light"} ph-heart"></i></span></div>
   <div class="card-body"><span class="card-city"><i class="ph-light ph-map-pin"></i>${cities}</span><h3>${p.t}</h3>
-  <div class="card-meta"><span><i class="ph-light ph-coffee"></i>Breakfast</span><span class="rm"><i class="ph-light ph-buildings"></i>${p.c.length} hotel${p.c.length>1?"s":""}</span></div>
-  <div class="card-foot"><div class="price"><small>From</small><b>${money(p.price)}<span> /person</span></b></div><span class="go-arrow"><i class="ph-bold ph-arrow-right"></i></span></div></div></div></a>`;
+  <div class="card-meta">${m1}${m2}</div>
+  <div class="card-foot"><div class="price"><small>${p.quote?"Price":"From"}</small><b>${priceTxt(p)}<span>${p.quote?" for your dates":" /person"}</span></b></div></div>
+  <span class="go-cta">See details<i class="ph-bold ph-arrow-right"></i></span></div></div></a>`;
 }
 document.addEventListener("click",e=>{
   const f=e.target.closest("[data-fav]");if(!f)return;e.preventDefault();e.stopPropagation();
@@ -1492,13 +1563,13 @@ document.addEventListener("click",e=>{
 
 /* ================= HOME ================= */
 function initHome(){
-  $("#heroSide").innerHTML=["rome-and-florence","venice-grand-canal","milan-garibaldi-break"].map((s,i)=>{const p=bySlug[s];return `<a class="hero-card rv right" style="--d:${500+i*120}" href="#/package/${s}"><img src="${IMG(C[p.c[0]].imgs[i===1?1:0],200)}" alt="${C[p.c[0]].name}"><div><b>${p.t}</b><span>${p.nights} nights</span></div><span class="pr">${money(p.price)}</span></a>`}).join("");
+  $("#heroSide").innerHTML=["grand-italian-four","florence-and-venice","milan-garibaldi-break"].map((s,i)=>{const p=bySlug[s];return `<a class="hero-card rv right" style="--d:${500+i*120}" href="#/package/${s}"><img src="${IMG(p.im,200)}" alt="${p.t}"><div><b>${p.t}</b><span>${p.nights} nights</span></div><span class="pr">${money(p.price)}</span></a>`}).join("");
 
   let hf="all";
-  const draw=anim=>{const list=P.filter(p=>hf==="all"||(hf==="multi"?p.multi:!p.multi)).slice(0,8);$("#homeGrid").innerHTML=list.map((p,i)=>card(p,i,anim?"pop-in":"rv")).join("");if(!anim)observe($("#homeGrid"))};
+  const draw=anim=>{const list=hf==="all"?[...P.filter(p=>!p.w).slice(0,4),...["dubai-abu-dhabi-seven-nights","aegean-athens-santorini-mykonos","istanbul-cappadocia-antalya","alaska-inside-passage-glacier-bay"].map(s=>bySlug[s])]:P.filter(p=>hf==="world"?p.w&&p.region!=="cruises":hf==="cruise"?p.region==="cruises":!p.w&&(hf==="multi"?p.multi:!p.multi)).slice(0,8);$("#homeGrid").innerHTML=list.map((p,i)=>card(p,i,anim?"pop-in":"rv")).join("");if(!anim)observe($("#homeGrid"))};
   draw(false);Chips($("#homeChips"),f=>{hf=f;draw(true)});
 
-  $("#showRow").innerHTML=["rome","venice","florence","milan"].map((k,i)=>{const p=P.find(p=>p.c.length===1&&p.c[0]===k);return `<a class="scard rv" style="--d:${i*110}" href="#/package/${p.s}"><img src="${IMG(C[k].imgs[0],900)}" alt="${C[k].name}, ${C[k].area}" loading="lazy"><span class="arr"><i class="ph-light ph-arrow-right"></i></span><div class="sc-b"><h3>${SHORT[k]}</h3><div class="sc-m"><span>${p.nights} nights</span><b>From ${money(p.price)}</b></div></div></a>`}).join("");
+  $("#showRow").innerHTML=["rome","venice","florence","milan"].map((k,i)=>{const p=P.find(p=>p.c.length===1&&p.c[0]===k);return `<a class="scard rv" style="--d:${i*110}" href="#/package/${p.s}"><img src="${IMG(C[k].imgs[0],900)}" alt="${C[k].ia[0]}, ${C[k].name}" loading="lazy"><span class="arr"><i class="ph-light ph-arrow-right"></i></span><div class="sc-b"><h3>${SHORT[k]}</h3><div class="sc-m"><span>${p.nights} nights</span><b>From ${money(p.price)}</b></div></div></a>`}).join("");
 
   /* planner */
   const dest=Dropdown($("#hDest"),{placeholder:"Anywhere in Italy",options:[{v:"all",l:"Anywhere in Italy",ic:"ph-globe-hemisphere-east",s:"All 12 packages"},...Object.entries(C).map(([k,c])=>({v:k,l:c.name,ic:"ph-map-pin",s:c.area}))],value:"all"});
@@ -1511,7 +1582,7 @@ function initHome(){
   const keys=["rome","florence","venice","milan"],tabs=$("#fpTabs");
   tabs.insertAdjacentHTML("beforeend",keys.map((k,i)=>`<button class="tab ${i?"":"on"}" data-k="${k}"><i class="ph-light ph-map-pin"></i>${C[k].name}</button>`).join(""));
   const panel=$("#fpPanel");
-  const drawFp=k=>{const c=C[k];panel.innerHTML=`<div class="fp-hotel"><div class="ph"><img src="${IMG(c.imgs[1],900)}" alt="${c.name} street view" loading="lazy"></div><div class="hb"><h3>${c.hotel}</h3>
+  const drawFp=k=>{const c=C[k];panel.innerHTML=`<div class="fp-hotel"><div class="ph"><img src="${IMG(c.hp[0],900)}" alt="${c.hotel}, ${c.name}" loading="lazy"></div><div class="hb"><h3>${c.hotel}</h3>
     <div class="line"><i class="ph-light ph-map-pin-line"></i>${c.addr}</div><div class="line"><i class="ph-light ph-phone"></i>${c.phone}</div><div class="line"><i class="ph-light ph-bed"></i>${c.room}, ${c.board.toLowerCase()}</div></div></div>
     <div class="fp-tiles">${c.tiles.map(t=>`<div class="fp-tile"><span class="ti"><i class="ph-light ${t[0]}"></i></span><h4>${t[1]}</h4><p>${t[2]}</p></div>`).join("")}</div>`};
   drawFp("rome");
@@ -1598,7 +1669,7 @@ function initContact(){
 /* ================= ALL PACKAGES ================= */
 const allState={q:"",city:"all",len:"any",sort:"rec",multi:false,saved:false};let pendingAll=false,aCity,aLen,aSort;
 function initAll(){
-  aCity=Dropdown($("#aCity"),{boxed:true,value:"all",options:[{v:"all",l:"All cities",ic:"ph-globe-hemisphere-east"},...Object.entries(C).map(([k,c])=>({v:k,l:c.name,ic:"ph-map-pin"}))],onChange:v=>{allState.city=v;renderAll(true)}});
+  aCity=Dropdown($("#aCity"),{boxed:true,value:"all",options:[{v:"all",l:"All destinations",ic:"ph-globe-hemisphere-east"},...Object.entries(C).map(([k,c])=>({v:k,l:c.name,s:"Italy",ic:"ph-map-pin"})),...Object.entries(RG).map(([k,l])=>({v:k,l,s:`${P.filter(p=>p.region===k).length} packages`,ic:k==="cruises"?"ph-boat":"ph-globe-hemisphere-west"}))],onChange:v=>{allState.city=v;renderAll(true)}});
   aLen=Dropdown($("#aLen"),{boxed:true,value:"any",options:[{v:"any",l:"Any length",ic:"ph-moon-stars"},{v:"s",l:"2 to 3 nights",ic:"ph-moon"},{v:"m",l:"4 to 5 nights",ic:"ph-moon"},{v:"l",l:"6 nights or more",ic:"ph-moon-stars"}],onChange:v=>{allState.len=v;renderAll(true)}});
   aSort=Dropdown($("#aSort"),{boxed:true,value:"rec",options:[{v:"rec",l:"Recommended",ic:"ph-sparkle"},{v:"lo",l:"Price, low to high",ic:"ph-sort-ascending"},{v:"hi",l:"Price, high to low",ic:"ph-sort-descending"},{v:"short",l:"Shortest first",ic:"ph-clock-counter-clockwise"},{v:"long",l:"Longest first",ic:"ph-clock-clockwise"}],onChange:v=>{allState.sort=v;renderAll(true)}});
   let qt;$("#aQ").addEventListener("input",e=>{clearTimeout(qt);qt=setTimeout(()=>{allState.q=e.target.value.trim().toLowerCase();renderAll(true)},180)});
@@ -1607,12 +1678,12 @@ function initAll(){
 }
 function renderAll(anim){
   const s=allState;
-  let list=P.filter(p=>(s.city==="all"||p.c.includes(s.city))&&(!s.multi||p.multi)&&(!s.saved||saved.has(p.s))
+  let list=P.filter(p=>(s.city==="all"||(RG[s.city]?p.region===s.city:p.c.includes(s.city)))&&(!s.multi||p.multi)&&(!s.saved||saved.has(p.s))
     &&(s.len==="any"||(s.len==="s"&&p.nights<=3)||(s.len==="m"&&p.nights>=4&&p.nights<=5)||(s.len==="l"&&p.nights>=6))
-    &&(!s.q||(p.t+" "+p.c.map(k=>C[k].name+" "+C[k].hotel).join(" ")).toLowerCase().includes(s.q)));
+    &&(!s.q||(p.t+" "+(p.w?`${p.route} ${p.country} ${p.ship||""} ${RG[p.region]}`:p.c.map(k=>C[k].name+" "+C[k].hotel).join(" "))).toLowerCase().includes(s.q)));
   const so={lo:(a,b)=>a.price-b.price,hi:(a,b)=>b.price-a.price,short:(a,b)=>a.nights-b.nights,long:(a,b)=>b.nights-a.nights}[s.sort];if(so)list=[...list].sort(so);
   $("#aCount").innerHTML=`Showing <b>${list.length}</b> of ${P.length} packages`;
-  $("#allGrid").innerHTML=list.length?list.map((p,i)=>card(p,i,anim?"pop-in":"rv")).join(""):`<div class="empty"><i class="ph-light ph-map-trifold"></i><h3>No packages match those filters</h3><p class="muted">Try a different city or length.</p><button class="btn btn-teal btn-sm" style="margin-top:18px" id="aReset">Reset filters<span class="ico"><i class="ph-light ph-arrow-counter-clockwise"></i></span></button></div>`;
+  $("#allGrid").innerHTML=list.length?list.map((p,i)=>card(p,i,anim?"pop-in":"rv")).join(""):`<div class="empty"><i class="ph-light ph-map-trifold"></i><h3>No packages match those filters</h3><p class="muted">Try a different destination or length.</p><button class="btn btn-teal btn-sm" style="margin-top:18px" id="aReset">Reset filters<span class="ico"><i class="ph-light ph-arrow-counter-clockwise"></i></span></button></div>`;
   const r=$("#aReset");r&&r.addEventListener("click",()=>{Object.assign(allState,{q:"",city:"all",len:"any",sort:"rec",multi:false,saved:false});syncAll();renderAll(true)});
   if(!anim)observe($("#allGrid"));
 }
@@ -1623,35 +1694,40 @@ let detailIO=[];
 function renderDetail(slug){
   const p=bySlug[slug];const v=$("#v-detail");
   if(!p){v.innerHTML=`<div class="page-top"><div class="wrap"><h1>Package not found</h1><p class="lead">It may have sold out or moved.</p><a class="btn btn-gold" style="margin-top:24px" href="#/packages">See all packages<span class="ico"><i class="ph-bold ph-arrow-right"></i></span></a></div></div>`;return}
+  const W_=!!p.w,cruise=p.region==="cruises";
   const cities=p.c.map(k=>C[k]);
-  const imgs=p.c.flatMap(k=>C[k].imgs).slice(0,4);
+  const imgs=W_?[p.im]:[...new Set([p.im,...[0,1,2].flatMap(r=>cities.map(c=>c.gal[r]).filter(Boolean))])].slice(0,4);
+  const heroAlt=W_?`${p.t}, ${p.country}`:`${cities[0].name}, ${cities[0].area}`;
+  const stops=W_?p.route.split("·").map(x=>x.trim()):[];
+  const wTravel=cruise?["ph-boat",p.ship]:W_&&p.tags.includes("plane")?["ph-airplane-tilt","Flights included"]:["ph-map-trifold","Land only"];
   /* itinerary */
   const days=[];let dn=1;
   p.c.forEach((k,ci)=>{const c=C[k];
     days.push([dn++,ci?`Travel to ${c.name}`:`Arrive in ${c.name}`,`${ci?`Breakfast, check out, then take the train to ${c.name}. `:""}Check in at ${c.hotel}, ${c.area.toLowerCase()}. Your ${c.room.toLowerCase()} is prepaid with ${c.board.toLowerCase()}.`]);
     for(let n=1;n<c.nights;n++){const a=c.days[(n-1)%c.days.length];days.push([dn++,`${c.name}: ${a[0]}`,a[1]])}
   });
-  days.push([dn,"Breakfast and head home",`Enjoy one last breakfast, settle any city tax and extras at the front desk, and check out of ${cities[cities.length-1].hotel}.`]);
-  const excl=["Flights to Italy and back home",...(p.multi?["Train tickets between cities (we can add them)"]:[]),"Local city tax, paid at each hotel","Incidentals and any resort fees",...(p.c.includes("milan")?["Breakfast for extra guests in Milan"]:[]),...(p.c.includes("rome")?["Baby cot in Rome, 16 euros per night"]:[])];
-  const notes=[["ph-prohibit","No-show policy","Same-day cancellations and no-shows are charged in full at every hotel."],["ph-warning-circle","If something is wrong","Tell the hotel right away so they can fix it, then contact us if it is not resolved."],
+  if(!W_)days.push([dn,"Breakfast and head home",`Enjoy one last breakfast, settle any city tax and extras at the front desk, and check out of ${cities[cities.length-1].hotel}.`]);
+  const excl=W_?[...(p.tags.includes("plane")||cruise?[]:["International flights"]),...(cruise?["Flights to and from the ship"]:[]),"Travel insurance, offered when you book","Visas and entry fees where they apply",cruise?"Gratuities and drinks not listed above":"Meals not listed above","Personal spending and tips"]:["Flights to Italy and back home",...(p.multi?["Train tickets between cities (we can add them)"]:[]),"Local city tax, paid at each hotel","Incidentals and any resort fees",...(p.c.includes("milan")?["Breakfast for extra guests in Milan"]:[]),...(p.c.includes("rome")?["Baby cot in Rome, 16 euros per night"]:[])];
+  const notes=W_?[["ph-identification-card","Passports and visas","Your passport should be valid for at least six months after you return. We tell you which visas apply when we confirm the trip."],["ph-calendar-check","Prices move with dates","The price shown is the lowest we have for this route. We confirm the exact fare for your dates before you pay anything."],["ph-pencil-simple-line","Make it yours","Dates, departure city, hotels and number of nights can all be changed. We re-price it for you."],...(cruise?[["ph-anchor","Cruise fares","Fares are per person in the lowest cabin grade, based on two sharing. Ask us about refund terms before you book."]]:[])]:[["ph-prohibit","No-show policy","Same-day cancellations and no-shows are charged in full at every hotel."],["ph-warning-circle","If something is wrong","Tell the hotel right away so they can fix it, then contact us if it is not resolved."],
     ...(p.c.includes("venice")?[["ph-calendar-x","Venice dates are fixed","The check-in date for the Venice hotel cannot be changed after booking."]]:[]),
     ...(p.c.includes("milan")?[["ph-identification-card","Bring ID for everyone","In Milan all guests, children included, show a government photo ID or passport."]]:[]),
     ...(p.c.includes("rome")?[["ph-credit-card","Possible deposit in Rome","The hotel may hold a cash or card deposit, returned at departure minus any charges."]]:[])];
-  const sug=P.filter(x=>x.s!==p.s).map(x=>({x,sc:x.c.filter(k=>p.c.includes(k)).length})).sort((a,b)=>b.sc-a.sc||a.x.i-b.x.i).slice(0,4).map(o=>o.x);
+  const sug=P.filter(x=>x.s!==p.s).map(x=>({x,sc:W_?(x.region===p.region?2:0)+(x.w?1:0):x.c.filter(k=>p.c.includes(k)).length})).sort((a,b)=>b.sc-a.sc||a.x.i-b.x.i).slice(0,4).map(o=>o.x);
   const save=Math.round(p.full-p.price);
 
   v.innerHTML=`
-  <section class="d-hero"><div class="hero-media"><img id="dImg" src="${IMG(imgs[0],2000)}" alt="${cities[0].name}, ${cities[0].area}"></div>
+  <section class="d-hero"><div class="hero-media"><img id="dImg" src="${IMG(imgs[0],2000)}" alt="${heroAlt}"></div>
     <div class="wrap">
-      <div class="crumbs rv"><a href="#/">Home</a><i class="ph-light ph-caret-right"></i><a href="#/packages">Packages</a><i class="ph-light ph-caret-right"></i><span>${cities.map(c=>c.name).join(", ")}</span></div>
+      <div class="crumbs rv"><a href="#/">Home</a><i class="ph-light ph-caret-right"></i><a href="#/packages">Packages</a><i class="ph-light ph-caret-right"></i><span>${W_?p.country:cities.map(c=>c.name).join(", ")}</span></div>
       <h1><span class="mask"><span style="--d:100">${p.t}</span></span></h1>
       <div class="d-chips rv" style="--d:260">
-        <span class="d-chip"><i class="ph-light ph-moon-stars"></i>${p.nights} nights</span>
+${W_?`<span class="d-chip"><i class="ph-light ph-moon-stars"></i>${p.dur}</span><span class="d-chip"><i class="ph-light ph-map-pin"></i>${stops.length} stops</span><span class="d-chip"><i class="ph-light ${wTravel[0]}"></i>${wTravel[1]}</span><span class="d-chip"><i class="ph-light ph-globe-hemisphere-east"></i>${RG[p.region]}</span>
+`:`        <span class="d-chip"><i class="ph-light ph-moon-stars"></i>${p.nights} nights</span>
         <span class="d-chip"><i class="ph-light ph-map-pin"></i>${cities.length} ${cities.length>1?"cities":"city"}</span>
         <span class="d-chip"><i class="ph-light ph-coffee"></i>Breakfast daily</span>
         <span class="d-chip"><i class="ph-light ph-ticket"></i>Prepaid vouchers</span>
-      </div>
-      <div class="d-thumbs rv" style="--d:360">${imgs.map((id,i)=>`<button class="${i?"":"on"}" data-img="${id}" aria-label="Show photo ${i+1}"><img src="${IMG(id,200)}" alt=""></button>`).join("")}</div>
+`}      </div>
+${imgs.length>1?`      <div class="d-thumbs rv" style="--d:360">${imgs.map((id,i)=>`<button class="${i?"":"on"}" data-img="${id}" aria-label="Show photo ${i+1}"><img src="${IMG(id,200)}" alt=""></button>`).join("")}</div>`:""}
     </div>
   </section>
   <div class="wrap d-body">
@@ -1660,39 +1736,44 @@ function renderDetail(slug){
         <h2 class="rv">About this trip</h2>
         <p class="lead rv" style="--d:80">${p.b}</p>
         <div class="facts">
-          <div class="fact rv" style="--d:0"><i class="ph-light ph-calendar"></i><small>Length</small><b>${p.nights} nights</b></div>
+${W_?`<div class="fact rv" style="--d:0"><i class="ph-light ph-calendar"></i><small>Length</small><b>${p.dur}</b></div>
+          <div class="fact rv" style="--d:80"><i class="ph-light ph-map-pin"></i><small>Destination</small><b>${p.country}</b></div>
+          <div class="fact rv" style="--d:160"><i class="ph-light ${wTravel[0]}"></i><small>${cruise?"Ship":"Travel"}</small><b>${wTravel[1]}</b></div>
+          <div class="fact rv" style="--d:240"><i class="ph-light ph-signpost"></i><small>Stops</small><b>${stops.length}</b></div>
+`:`          <div class="fact rv" style="--d:0"><i class="ph-light ph-calendar"></i><small>Length</small><b>${p.nights} nights</b></div>
           <div class="fact rv" style="--d:80"><i class="ph-light ph-buildings"></i><small>Hotels</small><b>${cities.length} central</b></div>
           <div class="fact rv" style="--d:160"><i class="ph-light ph-bed"></i><small>Room</small><b>${cities.length>1?"Per hotel":cities[0].room}</b></div>
           <div class="fact rv" style="--d:240"><i class="ph-light ph-coffee"></i><small>Board</small><b>Breakfast</b></div>
-        </div>
+`}        </div>
       </div>
-      <div class="d-sec"><h2 class="rv">Day by day</h2><div class="timeline" id="dTl">
+${W_?`      <div class="d-sec"><h2 class="rv">The route</h2><div class="wstops rv">${stops.map((x,i)=>`${i?'<i class="ph-light ph-arrow-right"></i>':""}<span>${x}</span>`).join("")}</div></div>
+`:`      <div class="d-sec"><h2 class="rv">Day by day</h2><div class="timeline" id="dTl">
         ${days.map((d,i)=>`<div class="tl rv ${i?"":"open"}" style="--d:${Math.min(i,5)*60}"><span class="dot">${d[0]}</span><div class="qa ${i?"":"open"}"><button class="qa-q" aria-expanded="${!i}"><span><small>Day ${d[0]}</small>${d[1]}</span><span class="qa-plus"></span></button><div class="qa-a"><div><p>${d[2]}</p></div></div></div></div>`).join("")}
       </div></div>
       <div class="d-sec"><h2 class="rv">Where you'll stay</h2><div class="hotels">
-        ${p.c.map((k,i)=>{const c=C[k];return `<div class="hotel rv" style="--d:${i*90}"><div class="hp"><img src="${IMG(c.imgs[1],600)}" alt="${c.name}" loading="lazy"></div><div class="hi"><h3>${c.hotel}</h3>
+        ${p.c.map((k,i)=>{const c=C[k];return `<div class="hotel rv" style="--d:${i*90}"><div class="hp"><img src="${IMG(c.hp[0],600)}" alt="${c.hotel}, ${c.name}" loading="lazy"></div><div class="hi"><h3>${c.hotel}</h3>
         <div class="row"><i class="ph-light ph-map-pin-line"></i>${c.addr}</div><div class="row"><i class="ph-light ph-phone"></i>${c.phone}</div>
         <div class="row"><i class="ph-light ph-bed"></i>${c.room}, ${c.nights} nights. ${c.bed}.</div><div class="pills">${c.perks.map(x=>`<span>${x}</span>`).join("")}</div></div></div>`}).join("")}
       </div></div>
-      <div class="d-sec"><h2 class="rv">What's included</h2><div class="inc">
+`}      <div class="d-sec"><h2 class="rv">What's included</h2><div class="inc">
         <div class="inc-col yes rv"><h3><i class="ph-fill ph-check-circle" style="color:var(--teal)"></i>Included</h3><ul>
-          ${cities.map(c=>`<li><i class="ph-light ph-check"></i>${c.nights} nights at ${c.hotel}</li>`).join("")}
-          <li><i class="ph-light ph-check"></i>Breakfast every morning</li><li><i class="ph-light ph-check"></i>Prepaid hotel vouchers</li><li><i class="ph-light ph-check"></i>Bed preference sent to each hotel</li><li><i class="ph-light ph-check"></i>24/7 support while you travel</li></ul></div>
+${W_?p.incl.map(x=>`<li><i class="ph-light ph-check"></i>${x}</li>`).join(""):`          ${cities.map(c=>`<li><i class="ph-light ph-check"></i>${c.nights} nights at ${c.hotel}</li>`).join("")}
+          <li><i class="ph-light ph-check"></i>Breakfast every morning</li><li><i class="ph-light ph-check"></i>Prepaid hotel vouchers</li><li><i class="ph-light ph-check"></i>Bed preference sent to each hotel</li><li><i class="ph-light ph-check"></i>24/7 support while you travel</li>`}</ul></div>
         <div class="inc-col no rv" style="--d:100"><h3><i class="ph-fill ph-info" style="color:#b54708"></i>Not included</h3><ul>${excl.map(x=>`<li><i class="ph-light ph-minus-circle"></i>${x}</li>`).join("")}</ul></div>
       </div></div>
       <div class="d-sec"><h2 class="rv">Good to know</h2><div class="notes">${notes.map((n,i)=>`<div class="note rv" style="--d:${i*70}"><i class="ph-light ${n[0]}"></i><div><b>${n[1]}</b><p>${n[2]}</p></div></div>`).join("")}</div></div>
     </div>
     <aside class="bk rv right" id="bk"><div class="bk-in">
-      <div class="bk-price"><div><small>From, per person</small><br><b>${money(p.price)}</b></div>${save>0?`<span class="save">Save ${money(save)}</span>`:`<span class="save">Breakfast included</span>`}</div>
+      <div class="bk-price"><div><small>${p.quote?"Priced for your dates":"From, per person"}</small><br><b>${priceTxt(p)}</b></div>${save>0?`<span class="save">Save ${money(save)}</span>`:`<span class="save">${W_?(cruise?"Port fees included":p.tags.includes("plane")?"Flights included":"Tours included"):"Breakfast included"}</span>`}</div>
       <div class="bk-fields">
-        <div class="field"><span class="lbl">Check in</span><div class="dp" id="dDate"></div></div>
+        <div class="field"><span class="lbl">${W_?"Departure":"Check in"}</span><div class="dp" id="dDate"></div></div>
         <div class="field"><span class="lbl">Travellers</span><div class="gp" id="dGuests"></div></div>
         <div class="field"><span class="lbl">Room</span><div class="dd" id="dRoom"></div></div>
       </div>
       <div class="addons">
         <label class="chk"><input type="checkbox" data-add="38"><span class="bx"><i class="ph-bold ph-check"></i></span><span class="ct"><span>Airport pickup</span><b>+$38</b></span></label>
         <label class="chk"><input type="checkbox" data-add="24"><span class="bx"><i class="ph-bold ph-check"></i></span><span class="ct"><span>Travel insurance</span><b>+$24</b></span></label>
-        ${p.multi?`<label class="chk"><input type="checkbox" data-add="${45*(p.c.length-1)}"><span class="bx"><i class="ph-bold ph-check"></i></span><span class="ct"><span>Fast train tickets</span><b>+$${45*(p.c.length-1)}</b></span></label>`:""}
+        ${!W_&&p.multi?`<label class="chk"><input type="checkbox" data-add="${45*(p.c.length-1)}"><span class="bx"><i class="ph-bold ph-check"></i></span><span class="ct"><span>Fast train tickets</span><b>+$${45*(p.c.length-1)}</b></span></label>`:""}
       </div>
       <div class="bk-total"><div><span id="tLine"></span><span id="tBase"></span></div><div><span>Add-ons</span><span id="tAdd">$0</span></div><div class="tt"><span>Estimated total</span><b id="tTot"></b></div></div>
       <div class="bk-actions">
@@ -1717,26 +1798,26 @@ function renderDetail(slug){
   </div></div></section>`;
 
   /* interactions */
-  accordion($("#dTl"));
+  $("#dTl")&&accordion($("#dTl"));
   $$(".d-thumbs button",v).forEach(b=>b.addEventListener("click",()=>{$$(".d-thumbs button",v).forEach(x=>x.classList.toggle("on",x===b));const im=$("#dImg");im.animate([{opacity:1},{opacity:.2}],{duration:220,fill:"forwards"}).onfinish=()=>{im.src=IMG(b.dataset.img,2000);im.onload=()=>im.animate([{opacity:.2,transform:"scale(1.08)"},{opacity:1,transform:"scale(1.02)"}],{duration:900,easing:"cubic-bezier(.22,1,.36,1)",fill:"forwards"})}}));
   const st={date:null,g:{adults:2,children:0},room:"std",add:0};
   const dd=DatePicker($("#dDate"),{boxed:true,nights:p.nights,placeholder:"Choose check-in",onChange:d=>{st.date=d;calc()}});
   GuestPicker($("#dGuests"),{boxed:true,onChange:g=>{st.g=g;calc()}});
-  Dropdown($("#dRoom"),{boxed:true,value:"std",options:[{v:"std",l:"As listed",s:cities.map(c=>c.room).join(", "),ic:"ph-bed"},{v:"up",l:"Upgrade on request",s:"About $40 per room, per night",ic:"ph-crown-simple"}],onChange:r=>{st.room=r;calc()}});
+  Dropdown($("#dRoom"),{boxed:true,value:"std",options:[{v:"std",l:"As listed",s:W_?(cruise?"Lowest cabin grade, two sharing":"Rooms as listed in the package"):cities.map(c=>c.room).join(", "),ic:"ph-bed"},{v:"up",l:"Upgrade on request",s:W_?"Priced separately when we confirm":"About $40 per room, per night",ic:"ph-crown-simple"}],onChange:r=>{st.room=r;calc()}});
   $$("[data-add]",v).forEach(c=>c.addEventListener("change",calc));
   function calc(){
     const ppl=st.g.adults+st.g.children,base=p.price*st.g.adults+p.price*.6*st.g.children;
-    const add=$$("[data-add]:checked",v).reduce((a,c)=>a+ +c.dataset.add,0)*ppl+(st.room==="up"?40*p.nights*Math.ceil(st.g.adults/2):0);
+    const add=$$("[data-add]:checked",v).reduce((a,c)=>a+ +c.dataset.add,0)*ppl+(st.room==="up"&&!W_?40*p.nights*Math.ceil(st.g.adults/2):0);
     st.total=base+add;
     $("#tLine").textContent=`${st.g.adults} adult${st.g.adults>1?"s":""}${st.g.children?` + ${st.g.children} child`:""}`;
-    $("#tBase").textContent=money(base);$("#tAdd").textContent=money(add);
-    const t=$("#tTot");const old=t.textContent;t.textContent=money(st.total);if(old&&old!==t.textContent)t.animate([{transform:"translateY(6px)",opacity:.3},{transform:"none",opacity:1}],{duration:450,easing:"cubic-bezier(.22,1,.36,1)"});
+    $("#tBase").textContent=p.quote?"On request":money(base);$("#tAdd").textContent=money(add);
+    const t=$("#tTot");const old=t.textContent;t.textContent=p.quote?"On request":money(st.total);if(old&&old!==t.textContent)t.animate([{transform:"translateY(6px)",opacity:.3},{transform:"none",opacity:1}],{duration:450,easing:"cubic-bezier(.22,1,.36,1)"});
     $("#dWa").href=`https://wa.me/${WA}?text=${encodeURIComponent(`Hi Preplan, I'd like "${p.t}"${st.date?` from ${fmt(st.date,true)}`:""} for ${ppl} traveller${ppl>1?"s":""}.`)}`;
   }
   calc();
   const book=()=>{if(!st.date){$("#bk").scrollIntoView({behavior:"smooth",block:"center"});setTimeout(()=>dd.open(),mobile()?500:350);toast("Pick a check-in date first","ph-calendar-blank");return}openModal(p,st)};
   $("#dBook").addEventListener("click",book);
-  $("#mbarPrice").textContent=money(p.price);$("#mbarBtn").onclick=book;
+  $("#mbarPrice").textContent=priceTxt(p);$("#mbarBtn").onclick=book;
 
   /* mobile book bar visibility */
   detailIO.forEach(o=>o.disconnect());detailIO=[];
@@ -1751,7 +1832,7 @@ function renderDetail(slug){
 let bBed,modalPkg;
 function openModal(p,st){
   modalPkg=p;const ppl=st.g.adults+st.g.children;
-  $("#mSum").innerHTML=`<img src="${IMG(C[p.c[0]].imgs[0],300)}" alt=""><div><b>${p.t}</b><span>${fmt(st.date)} to ${fmt(addDays(st.date,p.nights),true)}, ${ppl} traveller${ppl>1?"s":""}</span></div><span class="t">${money(st.total)}</span>`;
+  $("#mSum").innerHTML=`<img src="${pimg(p,300)}" alt=""><div><b>${p.t}</b><span>${fmt(st.date)} to ${fmt(addDays(st.date,p.nights),true)}, ${ppl} traveller${ppl>1?"s":""}</span></div><span class="t">${p.quote?"On request":money(st.total)}</span>`;
   if(!bBed)bBed=Dropdown($("#bBed"),{boxed:true,value:"double",options:[{v:"double",l:"Double bed",ic:"ph-bed"},{v:"twin",l:"Twin beds",ic:"ph-bed"},{v:"none",l:"No preference",ic:"ph-shuffle"}]});
   $("#mForm").style.display="";$("#mDone").classList.remove("show");
   $("#modal").classList.add("show");document.body.classList.add("lock");setTimeout(()=>$("#bName").focus({preventScroll:true}),400);
@@ -1763,7 +1844,7 @@ $("#bForm").addEventListener("submit",e=>{e.preventDefault();const f=e.target;
   if(!validate(f,{name:()=>$("#bName").value.trim().length>1,email:()=>emailOk($("#bEmail").value.trim()),consent:()=>$("#bTerms").checked}))return;
   const btn=$("button[type=submit]",f);btn.classList.add("loading");btn.querySelector("i").className="ph-bold ph-circle-notch";
   setTimeout(()=>{btn.classList.remove("loading");btn.querySelector("i").className="ph-bold ph-arrow-right";$("#mForm").style.display="none";
-    $("#mRef").innerHTML=`Reference <b>PPH-${Math.floor(100000+Math.random()*899999)}</b>. We will email ${$("#bEmail").value.trim()} once the rooms at ${modalPkg.c.map(k=>C[k].hotel).join(" and ")} are held.`;
+    $("#mRef").innerHTML=`Reference <b>PPH-${Math.floor(100000+Math.random()*899999)}</b>. We will email ${$("#bEmail").value.trim()} once ${modalPkg.w?(modalPkg.region==="cruises"?`your cabin on ${modalPkg.ship} is`:"your places on this trip are"):`the rooms at ${modalPkg.c.map(k=>C[k].hotel).join(" and ")} are`} held.`;
     $("#mDone").classList.add("show");f.reset()},1300)});
 
 /* ================= NAV ================= */
@@ -1826,7 +1907,7 @@ if(matchMedia("(hover:hover) and (pointer:fine)").matches&&!matchMedia("(prefers
 
 /* footer */
 $("#footWord").innerHTML=[..."Preplan"].map((l,i)=>`<span style="--i:${i}">${l}</span>`).join("");
-$("#footCities").innerHTML=P.filter(p=>!p.multi).map(p=>`<li><a href="#/package/${p.s}">${C[p.c[0]].name}</a></li>`).join("")+`<li><a href="#/packages">Multi-city trips</a></li>`;
+$("#footCities").innerHTML=P.filter(p=>!p.w&&!p.multi).map(p=>`<li><a href="#/package/${p.s}">${C[p.c[0]].name}</a></li>`).join("")+`<li><a href="#/packages">Multi-city trips</a></li>`;
 $("#yr").textContent=new Date().getFullYear();
 $("#news").addEventListener("submit",e=>{e.preventDefault();if(!emailOk(e.target[0].value.trim())){toast("Enter a valid email","ph-warning");return}e.target.reset();toast("You're on the list. Trip ideas coming soon.","ph-envelope-simple")});
 
