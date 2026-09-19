@@ -217,6 +217,7 @@ ${W_ ? p.incl.map(x => `<li><i class="ph-light ph-check"></i>${esc(x)}</li>`).jo
             <div class="field span2" data-req="consent"><label class="chk"><input type="checkbox" id="bTerms" aria-required="true"><span class="bx"><i class="ph-bold ph-check"></i></span><span class="ct">I understand city taxes are paid at the hotel and a no-show is charged in full. I have read the <a href="/terms" target="_blank">terms of booking</a>.</span></label><span class="err"><i class="ph-light ph-warning-circle"></i>Please confirm to continue</span></div>
           </div>
           <button class="btn btn-gold full" style="margin-top:18px" type="submit">Request booking<span class="ico"><i class="ph-bold ph-arrow-right"></i></span></button>
+          <p class="bk-note"><i class="ph-light ph-shield-check"></i>No payment now. We confirm rooms first, then send the invoice.</p>
         </form>
       </div>
       <div class="success" id="mDone">

@@ -114,7 +114,7 @@ function DatePicker(el,{value=null,placeholder="Add date",nights=0,boxed=false,u
   const api={value,nights,set(v,silent){api.value=v;val.textContent=v?(api.nights?`${fmt(v)} to ${fmt(addDays(v,api.nights))}`:fmt(v,true)):placeholder;val.classList.toggle("ph",!v);draw();if(!silent)onChange(v)},open(){openPop(el,pop)}};
   function draw(){
     head.textContent=`${MONTHS[view.getMonth()]} ${view.getFullYear()}`;
-    $(".pv",el).disabled=view<=new Date(TODAY.getFullYear(),TODAY.getMonth(),1);
+    $(".pv",pop).disabled=view<=new Date(TODAY.getFullYear(),TODAY.getMonth(),1);
     const first=(view.getDay()+6)%7,dim=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
     let h="";for(let i=0;i<first;i++)h+="<span></span>";
     const end=api.value&&api.nights?addDays(api.value,api.nights):null;

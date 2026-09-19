@@ -36,5 +36,5 @@ module.exports = {
   // Used for Article schema and the "reviewed by" line on guides.
   author: { name: "The Preplan Holidays planning team", url: "/about" },
   // Increment when you want browsers to re-fetch CSS/JS immediately.
-  assetVersion: "20260919b"
+  assetVersion: "20260919c"
 };
