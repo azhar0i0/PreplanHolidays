@@ -325,8 +325,6 @@ async function deliver(payload,waText){
     const ppl=st.g.adults+st.g.children,base=p.price*st.g.adults+p.price*.6*st.g.children;
     const add=$$("[data-add]:checked",v).reduce((a,c)=>a+ +c.dataset.add,0)*ppl+(st.room==="up"&&!W_?40*p.nights*Math.ceil(st.g.adults/2):0);
     st.total=base+add;
-    $("#tLine").textContent=`${st.g.adults} adult${st.g.adults>1?"s":""}${st.g.children?` + ${st.g.children} child${st.g.children>1?"ren":""}`:""}`;
-    $("#tBase").textContent=p.quote?"On request":money(base);$("#tAdd").textContent=money(add);
     const t=$("#tTot");const old=t.textContent;t.textContent=p.quote?"On request":money(st.total);if(old&&old!==t.textContent)t.animate([{transform:"translateY(6px)",opacity:.3},{transform:"none",opacity:1}],{duration:450,easing:"cubic-bezier(.22,1,.36,1)"});
     $("#dWa").href=`https://wa.me/${WA}?text=${encodeURIComponent(`Hi Preplan, I'd like "${p.t}"${st.date?` from ${fmt(st.date,true)}`:""} for ${ppl} traveller${ppl>1?"s":""}.`)}`;
   }

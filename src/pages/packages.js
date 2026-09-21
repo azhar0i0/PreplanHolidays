@@ -179,12 +179,10 @@ ${W_ ? p.incl.map(x => `<li><i class="ph-light ph-check"></i>${esc(x)}</li>`).jo
         <div class="field"><span class="lbl">Travellers</span><div class="gp" id="dGuests"></div></div>
         <div class="field"><span class="lbl">Room</span><div class="dd" id="dRoom"></div></div>
       </div>
-      <div class="addons">
-        <label class="chk"><input type="checkbox" data-add="38"><span class="bx"><i class="ph-bold ph-check"></i></span><span class="ct"><span>Airport pickup</span><b>+$38</b></span></label>
-        <label class="chk"><input type="checkbox" data-add="24"><span class="bx"><i class="ph-bold ph-check"></i></span><span class="ct"><span>Travel insurance</span><b>+$24</b></span></label>
-        ${!W_ && p.multi ? `<label class="chk"><input type="checkbox" data-add="${45 * (p.c.length - 1)}"><span class="bx"><i class="ph-bold ph-check"></i></span><span class="ct"><span>Fast train tickets</span><b>+$${45 * (p.c.length - 1)}</b></span></label>` : ""}
-      </div>
-      <div class="bk-total"><div><span id="tLine">2 adults</span><span id="tBase">${p.quote ? "On request" : money(p.price * 2)}</span></div><div><span>Add-ons</span><span id="tAdd">$0</span></div><div class="tt"><span>Estimated total</span><b id="tTot">${p.quote ? "On request" : money(p.price * 2)}</b></div></div>
+      ${!W_ && p.multi ? `<div class="addons">
+        <label class="chk"><input type="checkbox" data-add="${45 * (p.c.length - 1)}"><span class="bx"><i class="ph-bold ph-check"></i></span><span class="ct"><span>Fast train tickets</span><b>+$${45 * (p.c.length - 1)}</b></span></label>
+      </div>` : ""}
+      <div class="bk-total"><div class="tt"><span>Estimated total</span><b id="tTot">${p.quote ? "On request" : money(p.price * 2)}</b></div></div>
       <div class="bk-actions">
         <button class="btn btn-gold full" id="dBook" type="button">Book this trip<span class="ico"><i class="ph-bold ph-arrow-right"></i></span></button>
         <div class="duo"><a class="btn btn-ghost plain" id="dWa" href="${wa(`Hi Preplan, I'd like "${p.t}".`)}" target="_blank" rel="noopener"><i class="ph-light ph-whatsapp-logo" style="font-size:1.25rem"></i>Ask on WhatsApp</a><button class="save-btn" type="button" data-fav="${p.s}" aria-label="Save package"><i class="ph-light ph-heart"></i></button></div>

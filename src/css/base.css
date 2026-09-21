@@ -653,7 +653,7 @@ p{margin:0}
 .addons-wrap{flex:1}
 .bk-total{display:grid;gap:6px;padding:16px 0;border-top:1px solid var(--line);font-size:.9rem;color:var(--ink-2)}
 .bk-total div{display:flex;justify-content:space-between}
-.bk-total .tt{color:var(--ink);font-weight:600;font-size:1.05rem;padding-top:6px}
+.bk-total .tt{color:var(--ink);font-weight:600;font-size:1.05rem}
 .bk-total .tt b{font-family:var(--f-head);font-size:1.35rem;font-weight:600}
 .bk-actions{display:grid;gap:8px}
 .bk-actions .duo{display:grid;grid-template-columns:1fr auto;gap:8px}
